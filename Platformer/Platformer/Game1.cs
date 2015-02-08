@@ -2,14 +2,28 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
+using Platformer.Entities;
+using Platformer.Managers;
 using Platformer.Shared;
 
 namespace Platformer
 {
+	public enum ButtonStates
+	{
+		HELD,
+		RELEASED,
+		PRESSED_THIS_FRAME,
+		RELEASED_THIS_FRAME
+	}
+
 	public class Game1 : Game
 	{
 		private GraphicsDeviceManager graphics;
 		private SpriteBatch spriteBatch;
+
+		private InputManager inputManager;
+		private EventManager eventManager;
+		private TimerManager timerManager;
 
 		public Game1()
 		{
@@ -26,6 +40,10 @@ namespace Platformer
 		{
 			ContentLoader.Initialize(Content);
 
+			inputManager = new InputManager();
+			eventManager = new EventManager();
+			timerManager = new TimerManager();
+
 			base.Initialize();
 		}
 		
@@ -36,6 +54,13 @@ namespace Platformer
 
 		protected override void Update(GameTime gameTime)
 		{
+			float dt = (float)gameTime.ElapsedGameTime.Milliseconds / 1000;
+
+			inputManager.Update();
+			eventManager.Update();
+			timerManager.Update(dt);
+
+			Camera.Instance.Update();
 		}
 
 		protected override void Draw(GameTime gameTime)
