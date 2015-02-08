@@ -11,7 +11,7 @@ namespace Platformer.Entities
 	class Player : ISimpleEventListener
 	{
 		private const int ACCELERATION = 2000;
-		private const int DECELERATION = 1800;
+		private const int DECELERATION = 1700;
 		private const int MAX_SPEED = 300;
 
 		private Vector2 position;
