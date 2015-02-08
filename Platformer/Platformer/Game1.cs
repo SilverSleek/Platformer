@@ -25,6 +25,8 @@ namespace Platformer
 		private EventManager eventManager;
 		private TimerManager timerManager;
 
+		private Player player;
+
 		public Game1()
 		{
 			graphics = new GraphicsDeviceManager(this);
@@ -44,6 +46,8 @@ namespace Platformer
 			eventManager = new EventManager();
 			timerManager = new TimerManager();
 
+			player = new Player();
+
 			base.Initialize();
 		}
 		
@@ -60,12 +64,19 @@ namespace Platformer
 			eventManager.Update();
 			timerManager.Update(dt);
 
+			player.Update(dt);
+
 			Camera.Instance.Update();
 		}
 
 		protected override void Draw(GameTime gameTime)
 		{
 			GraphicsDevice.Clear(Color.White);
+
+			spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default,
+				RasterizerState.CullCounterClockwise, null, Camera.Instance.Transform);
+			player.Draw(spriteBatch);
+			spriteBatch.End();
 		}
 	}
 }
