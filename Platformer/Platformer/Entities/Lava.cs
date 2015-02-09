@@ -1,11 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using Platformer.Entities.Events;
+using Platformer.Interfaces;
 using Platformer.Shared;
 
 namespace Platformer.Entities
 {
-	class Lava
+	class Lava : IEventListener
 	{
 		private const int ASCENSION_SPEED = 25;
 
@@ -15,9 +17,16 @@ namespace Platformer.Entities
 		{
 			whitePixel = ContentLoader.LoadTexture("WhitePixel");
 			Level = Constants.SCREEN_HEIGHT;
+
+			SimpleEvent.AddEvent(EventTypes.LISTENER, new ListenerEventData(EventTypes.RESET, this));
 		}
 		
-		public float Level { get; private set; } 
+		public float Level { get; private set; }
+
+		public void EventResponse(SimpleEvent simpleEvent)
+		{
+			Level = Constants.SCREEN_HEIGHT;
+		}
 
 		public void Update(float dt)
 		{

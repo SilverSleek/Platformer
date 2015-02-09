@@ -2,7 +2,7 @@
 
 namespace Platformer.Interfaces
 {
-	interface ISimpleEventListener
+	interface IEventListener
 	{
 		void EventResponse(SimpleEvent simpleEvent);
 	}

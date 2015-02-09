@@ -5,14 +5,14 @@ using Platformer.Interfaces;
 
 namespace Platformer.Managers
 {
-	class EventManager : ISimpleEventListener
+	class EventManager : IEventListener
 	{
-		private Dictionary<EventTypes, List<ISimpleEventListener>> listenerMap;
+		private Dictionary<EventTypes, List<IEventListener>> listenerMap;
 
 		public EventManager()
 		{
-			listenerMap = new Dictionary<EventTypes, List<ISimpleEventListener>>();
-			listenerMap.Add(EventTypes.LISTENER, new List<ISimpleEventListener>());
+			listenerMap = new Dictionary<EventTypes, List<IEventListener>>();
+			listenerMap.Add(EventTypes.LISTENER, new List<IEventListener>());
 			listenerMap[EventTypes.LISTENER].Add(this);
 		}
 
@@ -23,7 +23,7 @@ namespace Platformer.Managers
 
 			if (!listenerMap.ContainsKey(eventType))
 			{
-				listenerMap.Add(eventType, new List<ISimpleEventListener>());
+				listenerMap.Add(eventType, new List<IEventListener>());
 			}
 
 			listenerMap[eventType].Add(data.Listener);
@@ -39,7 +39,7 @@ namespace Platformer.Managers
 
 				if (listenerMap.ContainsKey(simpleEvent.Type))
 				{
-					foreach (ISimpleEventListener listener in listenerMap[simpleEvent.Type])
+					foreach (IEventListener listener in listenerMap[simpleEvent.Type])
 					{
 						listener.EventResponse(simpleEvent);
 					}

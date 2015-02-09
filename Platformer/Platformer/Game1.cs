@@ -5,6 +5,8 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 using Platformer.Entities;
+using Platformer.Entities.Events;
+using Platformer.Interfaces;
 using Platformer.Helpers;
 using Platformer.Managers;
 using Platformer.Shared;
@@ -26,7 +28,7 @@ namespace Platformer
 		RIGHT
 	}
 
-	public class Game1 : Game
+	class Game1 : Game, IEventListener
 	{
 		private GraphicsDeviceManager graphics;
 		private SpriteBatch spriteBatch;
@@ -50,6 +52,8 @@ namespace Platformer
 			Content.RootDirectory = "Content";
 			Window.Title = "Platformer";
 			IsMouseVisible = true;
+
+			SimpleEvent.AddEvent(EventTypes.LISTENER, new ListenerEventData(EventTypes.EXIT, this));
 		}
 
 		protected override void Initialize()
@@ -73,6 +77,11 @@ namespace Platformer
 		protected override void LoadContent()
 		{
 			spriteBatch = new SpriteBatch(GraphicsDevice);
+		}
+
+		public void EventResponse(SimpleEvent simpleEvent)
+		{
+			Exit();
 		}
 
 		protected override void Update(GameTime gameTime)

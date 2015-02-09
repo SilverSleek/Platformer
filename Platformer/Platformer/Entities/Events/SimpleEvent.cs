@@ -10,6 +10,7 @@ namespace Platformer.Entities.Events
 		KEYBOARD,
 		MOUSE,
 		GAMESTATE,
+		RESET,
 		EXIT
 	}
 
@@ -22,9 +23,9 @@ namespace Platformer.Entities.Events
 
 		public static Queue<SimpleEvent> Queue { get; private set; }
 
-		public static void AddListener(EventTypes eventType, ISimpleEventListener listener)
+		public static void AddEvent(EventTypes eventType, object data)
 		{
-			Queue.Enqueue(new SimpleEvent(EventTypes.LISTENER, new ListenerEventData(eventType, listener)));
+			Queue.Enqueue(new SimpleEvent(eventType, data));
 		}
 
 		public SimpleEvent(EventTypes type, object data)

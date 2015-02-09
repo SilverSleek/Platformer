@@ -118,7 +118,7 @@
     <Compile Include="Entities\Sprite.cs" />
     <Compile Include="Entities\Timer.cs" />
     <Compile Include="Helpers\CollisionHelper.cs" />
-    <Compile Include="Interfaces\ISimpleEventListener.cs" />
+    <Compile Include="Interfaces\IEventListener.cs" />
     <Compile Include="Managers\EventManager.cs" />
     <Compile Include="Managers\InputManager.cs" />
     <Compile Include="Managers\TimerManager.cs" />

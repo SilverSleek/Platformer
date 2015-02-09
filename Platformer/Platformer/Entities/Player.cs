@@ -8,7 +8,7 @@ using Platformer.Shared;
 
 namespace Platformer.Entities
 {
-	class Player : ISimpleEventListener
+	class Player : IEventListener
 	{
 		private const int ACCELERATION = 2000;
 		private const int DECELERATION = 1700;
@@ -33,7 +33,8 @@ namespace Platformer.Entities
 			NewBoundingBox = new Rectangle(0, 0, texture.Width, texture.Height);
 			airborne = true;
 
-			SimpleEvent.AddListener(EventTypes.KEYBOARD, this);
+			SimpleEvent.AddEvent(EventTypes.LISTENER, new ListenerEventData(EventTypes.KEYBOARD, this));
+			SimpleEvent.AddEvent(EventTypes.LISTENER, new ListenerEventData(EventTypes.RESET, this));
 		}
 
 		public Rectangle OldBoundingBox { get; private set; }
@@ -62,10 +63,23 @@ namespace Platformer.Entities
 
 		public void EventResponse(SimpleEvent simpleEvent)
 		{
-			KeyboardEventData data = (KeyboardEventData)simpleEvent.Data;
+			EventTypes eventType = simpleEvent.Type;
 
-			HandleRunning(data);
-			HandleJumping(data);
+			if (eventType == EventTypes.KEYBOARD)
+			{
+				KeyboardEventData data = (KeyboardEventData)simpleEvent.Data;
+
+				HandleRunning(data);
+				HandleJumping(data);
+			}
+			else
+			{
+				position = Vector2.Zero;
+				velocity = Vector2.Zero;
+				acceleration = Vector2.Zero;
+
+				UpdateValues();
+			}
 		}
 
 		private void HandleRunning(KeyboardEventData data)

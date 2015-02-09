@@ -3,6 +3,7 @@
 using Microsoft.Xna.Framework;
 
 using Platformer.Entities;
+using Platformer.Entities.Events;
 using Platformer.Shared;
 
 namespace Platformer.Helpers
@@ -29,6 +30,20 @@ namespace Platformer.Helpers
 				player.RegisterCollision(CollisionDirections.DOWN, Constants.SCREEN_HEIGHT);
 			}
 
+			CheckLava(playerBox);
+			CheckPlatforms(playerBox);
+		}
+
+		private void CheckLava(Rectangle playerBox)
+		{
+			if (playerBox.Bottom >= lava.Level)
+			{
+				SimpleEvent.Queue.Enqueue(new SimpleEvent(EventTypes.RESET, null));
+			}
+		}
+
+		private void CheckPlatforms(Rectangle playerBox)
+		{
 			foreach (Platform platform in platforms)
 			{
 				Rectangle platformBox = platform.BoundingBox;
