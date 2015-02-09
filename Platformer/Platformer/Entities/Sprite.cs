@@ -15,6 +15,7 @@ namespace Platformer.Entities
 			this.sourceRect = sourceRect;
 
 			Position = position;
+			origin = new Vector2(texture.Width, texture.Height) / 2;
 			Color = color;
 		}
 

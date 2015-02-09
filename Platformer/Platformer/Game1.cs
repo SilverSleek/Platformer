@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 using Platformer.Entities;
+using Platformer.Helpers;
 using Platformer.Managers;
 using Platformer.Shared;
 
@@ -16,6 +17,14 @@ namespace Platformer
 		RELEASED_THIS_FRAME
 	}
 
+	public enum CardinalDirections
+	{
+		UP,
+		DOWN,
+		LEFT,
+		RIGHT
+	}
+
 	public class Game1 : Game
 	{
 		private GraphicsDeviceManager graphics;
@@ -26,6 +35,7 @@ namespace Platformer
 		private TimerManager timerManager;
 
 		private Player player;
+		private CollisionHelper collisionHelper;
 
 		public Game1()
 		{
@@ -47,6 +57,7 @@ namespace Platformer
 			timerManager = new TimerManager();
 
 			player = new Player();
+			collisionHelper = new CollisionHelper(player);
 
 			base.Initialize();
 		}
@@ -65,6 +76,7 @@ namespace Platformer
 			timerManager.Update(dt);
 
 			player.Update(dt);
+			collisionHelper.Update();
 
 			Camera.Instance.Update();
 		}

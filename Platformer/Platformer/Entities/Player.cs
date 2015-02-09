@@ -13,23 +13,65 @@ namespace Platformer.Entities
 		private const int ACCELERATION = 2000;
 		private const int DECELERATION = 1700;
 		private const int MAX_SPEED = 300;
+		private const int JUMP_SPEED_INITIAL = 550;
+		private const int JUMP_SPEED_LIMITED = 200;
 
 		private Vector2 position;
 		private Vector2 velocity;
 		private Vector2 acceleration;
+		private Vector2 halfBounds;
 		private Sprite sprite;
+
+		private bool airborne;
 
 		public Player()
 		{
-			sprite = new Sprite(ContentLoader.LoadTexture("Player"), null, Vector2.Zero, Color.White);
+			Texture2D texture = ContentLoader.LoadTexture("Player");
+
+			sprite = new Sprite(texture, null, Vector2.Zero, Color.White);
+			halfBounds = new Vector2(texture.Width, texture.Height) / 2;
+			BoundingBox = new Rectangle(0, 0, texture.Width, texture.Height);
+			airborne = true;
 
 			SimpleEvent.AddListener(EventTypes.KEYBOARD, this);
+		}
+
+		public Rectangle BoundingBox { get; private set; }
+
+		public void RegisterCollision(CardinalDirections direction, float value)
+		{
+			switch (direction)
+			{
+				case CardinalDirections.UP:
+					break;
+
+				case CardinalDirections.DOWN:
+					airborne = false;
+					position.Y = value - halfBounds.Y;
+					velocity.Y = 0;
+
+					break;
+
+				case CardinalDirections.LEFT:
+					break;
+
+				case CardinalDirections.RIGHT:
+					break;
+			}
+
+			UpdateValues();
 		}
 
 		public void EventResponse(SimpleEvent simpleEvent)
 		{
 			KeyboardEventData data = (KeyboardEventData)simpleEvent.Data;
 
+			HandleRunning(data);
+			HandleJumping(data);
+		}
+
+		private void HandleRunning(KeyboardEventData data)
+		{
 			bool aDown = false;
 			bool dDown = false;
 
@@ -59,22 +101,73 @@ namespace Platformer.Entities
 			}
 		}
 
-		private void HandleRunning(KeyboardEventData data)
-		{
-		}
-
 		private void HandleJumping(KeyboardEventData data)
 		{
+			if (!airborne)
+			{
+				bool wPressedThisFrame = false;
+
+				foreach (Keys key in data.KeysPressedThisFrame)
+				{
+					if (key == Keys.W)
+					{
+						wPressedThisFrame = true;
+
+						break;
+					}
+				}
+
+				if (wPressedThisFrame)
+				{
+					velocity.Y = -JUMP_SPEED_INITIAL;
+					airborne = true;
+				}
+			}
+			else
+			{
+				bool wReleasedThisFrame = false;
+
+				foreach (Keys key in data.KeysReleasedThisFrame)
+				{
+					if (key == Keys.W)
+					{
+						wReleasedThisFrame = true;
+
+						break;
+					}
+				}
+
+				if (wReleasedThisFrame && velocity.Y < -JUMP_SPEED_LIMITED)
+				{
+					velocity.Y = -JUMP_SPEED_LIMITED;
+				}
+			}
 		}
 
 		public void Update(float dt)
 		{
 			velocity += acceleration * dt;
 
+			if (airborne)
+			{
+				velocity.Y += Constants.GRAVITY * dt;
+			}
+
 			CorrectVelocity(dt);
 
 			position += velocity * dt;
+
+			UpdateValues();
+		}
+
+		private void UpdateValues()
+		{
 			sprite.Position = position;
+
+			Rectangle boundingBox = BoundingBox;
+			boundingBox.X = (int)(position.X - halfBounds.X);
+			boundingBox.Y = (int)(position.Y - halfBounds.Y);
+			BoundingBox = boundingBox;
 		}
 
 		private void CorrectVelocity(float dt)
