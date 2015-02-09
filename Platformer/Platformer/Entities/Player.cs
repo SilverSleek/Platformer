@@ -34,7 +34,6 @@ namespace Platformer.Entities
 		{
 			Texture2D texture = ContentLoader.LoadTexture("Player");
 
-			position = new Vector2(Constants.SCREEN_WIDTH / 2, 100);
 			sprite = new Sprite(texture, position);
 			halfBounds = new Vector2(texture.Width, texture.Height) / 2;
 			NewBoundingBox = new Rectangle(0, 0, texture.Width, texture.Height);
@@ -84,7 +83,7 @@ namespace Platformer.Entities
 			}
 			else
 			{
-				position = new Vector2(Constants.SCREEN_WIDTH / 2, 100);
+				position = new Vector2(Constants.SCREEN_WIDTH / 2, 300);
 				velocity = Vector2.Zero;
 				acceleration = Vector2.Zero;
 				airborne = true;

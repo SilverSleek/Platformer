@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Platformer.Entities;
 using Platformer.Entities.Events;
+using Platformer.Entities.Hazards;
 using Platformer.Interfaces;
 using Platformer.Helpers;
 using Platformer.Managers;
@@ -68,10 +69,14 @@ namespace Platformer
 			lava = new Lava();
 
 			List<Platform> platforms = new List<Platform>();
-			platforms.Add(new Platform(new Vector2(400, 400)));
+			List<Hazard> hazards = new List<Hazard>();
 
 			platformHelper = new PlatformHelper(platforms, lava);
-			collisionHelper = new CollisionHelper(player, lava, platforms);
+			collisionHelper = new CollisionHelper(player, lava, platforms, hazards);
+
+			Platform.Initialize(hazards);
+
+			SimpleEvent.AddEvent(EventTypes.RESET, null);
 
 			base.Initialize();
 		}

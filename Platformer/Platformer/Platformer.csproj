@@ -112,6 +112,8 @@
     <Compile Include="Entities\Events\ListenerEventData.cs" />
     <Compile Include="Entities\Events\MouseEventData.cs" />
     <Compile Include="Entities\Events\SimpleEvent.cs" />
+    <Compile Include="Entities\Hazards\Hazard.cs" />
+    <Compile Include="Entities\Hazards\StationarySpikes.cs" />
     <Compile Include="Entities\Lava.cs" />
     <Compile Include="Entities\Platform.cs" />
     <Compile Include="Entities\Player.cs" />
@@ -128,6 +130,7 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Shared\Constants.cs" />
     <Compile Include="Shared\ContentLoader.cs" />
+    <Compile Include="Shared\DrawingFunctions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

@@ -5,13 +5,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Platformer.Entities;
-using Platformer.Entities.Events;
-using Platformer.Interfaces;
 using Platformer.Shared;
 
 namespace Platformer.Helpers
 {
-	class PlatformHelper : IEventListener
+	class PlatformHelper
 	{
 		private const int VERTICAL_SPACING = 150;
 		private const int OFFSCREEN_DISTANCE = 100;
@@ -27,14 +25,6 @@ namespace Platformer.Helpers
 			this.lava = lava;
 
 			random = new Random();
-
-			SimpleEvent.AddEvent(EventTypes.LISTENER, new ListenerEventData(EventTypes.RESET, this));
-		}
-
-		public void EventResponse(SimpleEvent simpleEvent)
-		{
-			platforms.Clear();
-			platforms.Add(new Platform(new Vector2(400, 400)));
 		}
 
 		public void Update(float dt)
