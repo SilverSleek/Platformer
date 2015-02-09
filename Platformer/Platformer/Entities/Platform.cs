@@ -20,6 +20,10 @@ namespace Platformer.Entities
 
 		public Rectangle BoundingBox { get; private set; }
 
+		public void Update(float dt)
+		{
+		}
+
 		public void Draw(SpriteBatch sb)
 		{
 			sprite.Draw(sb);

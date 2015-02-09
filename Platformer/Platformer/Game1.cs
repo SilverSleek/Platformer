@@ -39,8 +39,8 @@ namespace Platformer
 
 		private Player player;
 		private Lava lava;
-		private List<Platform> platforms;
 
+		private PlatformHelper platformHelper;
 		private CollisionHelper collisionHelper;
 
 		public Game1()
@@ -66,9 +66,11 @@ namespace Platformer
 
 			player = new Player();
 			lava = new Lava();
-			platforms = new List<Platform>();
+
+			List<Platform> platforms = new List<Platform>();
 			platforms.Add(new Platform(new Vector2(400, 400)));
 
+			platformHelper = new PlatformHelper(platforms, lava);
 			collisionHelper = new CollisionHelper(player, lava, platforms);
 
 			base.Initialize();
@@ -92,6 +94,7 @@ namespace Platformer
 			eventManager.Update();
 			timerManager.Update(dt);
 
+			platformHelper.Update(dt);
 			player.Update(dt);
 			lava.Update(dt);
 			collisionHelper.Update();
@@ -106,11 +109,7 @@ namespace Platformer
 			spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default,
 				RasterizerState.CullCounterClockwise, null, Camera.Instance.Transform);
 
-			foreach (Platform platform in platforms)
-			{
-				platform.Draw(spriteBatch);
-			}
-
+			platformHelper.Draw(spriteBatch);
 			player.Draw(spriteBatch);
 			lava.Draw(spriteBatch);
 

@@ -28,7 +28,8 @@ namespace Platformer.Entities
 		{
 			Texture2D texture = ContentLoader.LoadTexture("Player");
 
-			sprite = new Sprite(texture, Vector2.Zero);
+			position = new Vector2(Constants.SCREEN_WIDTH / 2, 100);
+			sprite = new Sprite(texture, position);
 			halfBounds = new Vector2(texture.Width, texture.Height) / 2;
 			NewBoundingBox = new Rectangle(0, 0, texture.Width, texture.Height);
 			airborne = true;
