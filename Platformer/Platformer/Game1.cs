@@ -35,6 +35,7 @@ namespace Platformer
 		private TimerManager timerManager;
 
 		private Player player;
+		private Lava lava;
 		private CollisionHelper collisionHelper;
 
 		public Game1()
@@ -57,6 +58,7 @@ namespace Platformer
 			timerManager = new TimerManager();
 
 			player = new Player();
+			lava = new Lava();
 			collisionHelper = new CollisionHelper(player);
 
 			base.Initialize();
@@ -76,6 +78,7 @@ namespace Platformer
 			timerManager.Update(dt);
 
 			player.Update(dt);
+			lava.Update(dt);
 			collisionHelper.Update();
 
 			Camera.Instance.Update();
@@ -88,6 +91,7 @@ namespace Platformer
 			spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default,
 				RasterizerState.CullCounterClockwise, null, Camera.Instance.Transform);
 			player.Draw(spriteBatch);
+			lava.Draw(spriteBatch);
 			spriteBatch.End();
 		}
 	}
