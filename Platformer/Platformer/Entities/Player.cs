@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -13,8 +15,10 @@ namespace Platformer.Entities
 		private const int ACCELERATION = 2000;
 		private const int DECELERATION = 1700;
 		private const int MAX_SPEED = 300;
-		private const int JUMP_SPEED_INITIAL = 600;
-		private const int JUMP_SPEED_LIMITED = 200;
+		private const int JUMP_SPEED_INITIAL = 400;
+		private const int JUMP_SPEED_LIMITED = 150;
+		private const int DOUBLE_JUMP_SPEED_INITIAL = 550;
+		private const int DOUBLE_JUMP_SPEED_LIMITED = 200;
 
 		private Vector2 position;
 		private Vector2 velocity;
@@ -23,6 +27,8 @@ namespace Platformer.Entities
 		private Sprite sprite;
 
 		private bool airborne;
+		private bool doubleJumpEnabled;
+		private bool doubleJumpActive;
 
 		public Player()
 		{
@@ -33,6 +39,7 @@ namespace Platformer.Entities
 			halfBounds = new Vector2(texture.Width, texture.Height) / 2;
 			NewBoundingBox = new Rectangle(0, 0, texture.Width, texture.Height);
 			airborne = true;
+			doubleJumpEnabled = true;
 
 			SimpleEvent.AddEvent(EventTypes.LISTENER, new ListenerEventData(EventTypes.KEYBOARD, this));
 			SimpleEvent.AddEvent(EventTypes.LISTENER, new ListenerEventData(EventTypes.RESET, this));
@@ -46,9 +53,11 @@ namespace Platformer.Entities
 			switch (direction)
 			{
 				case CollisionDirections.DOWN:
-					airborne = false;
 					position.Y = value - halfBounds.Y;
 					velocity.Y = 0;
+					airborne = false;
+					doubleJumpEnabled = true;
+					doubleJumpActive = false;
 
 					break;
 
@@ -79,6 +88,8 @@ namespace Platformer.Entities
 				velocity = Vector2.Zero;
 				acceleration = Vector2.Zero;
 				airborne = true;
+				doubleJumpEnabled = true;
+				doubleJumpActive = false;
 
 				UpdateValues();
 			}
@@ -117,21 +128,12 @@ namespace Platformer.Entities
 
 		private void HandleJumping(KeyboardEventData data)
 		{
+			bool jumpPressedThisFrame = CheckJumpKey(data.KeysPressedThisFrame);
+			bool jumpReleasedThisFrame = CheckJumpKey(data.KeysReleasedThisFrame);
+
 			if (!airborne)
 			{
-				bool wPressedThisFrame = false;
-
-				foreach (Keys key in data.KeysPressedThisFrame)
-				{
-					if (key == Keys.W)
-					{
-						wPressedThisFrame = true;
-
-						break;
-					}
-				}
-
-				if (wPressedThisFrame)
+				if (jumpPressedThisFrame)
 				{
 					velocity.Y = -JUMP_SPEED_INITIAL;
 					airborne = true;
@@ -139,23 +141,34 @@ namespace Platformer.Entities
 			}
 			else
 			{
-				bool wReleasedThisFrame = false;
-
-				foreach (Keys key in data.KeysReleasedThisFrame)
+				if (doubleJumpEnabled && jumpPressedThisFrame)
 				{
-					if (key == Keys.W)
-					{
-						wReleasedThisFrame = true;
-
-						break;
-					}
+					velocity.Y = -DOUBLE_JUMP_SPEED_INITIAL;
+					doubleJumpEnabled = false;
+					doubleJumpActive = true;
 				}
-
-				if (wReleasedThisFrame && velocity.Y < -JUMP_SPEED_LIMITED)
+				else if (doubleJumpActive && jumpReleasedThisFrame && velocity.Y < -DOUBLE_JUMP_SPEED_LIMITED)
+				{
+					velocity.Y = -DOUBLE_JUMP_SPEED_LIMITED;
+				}
+				else if (jumpReleasedThisFrame && velocity.Y < -JUMP_SPEED_LIMITED)
 				{
 					velocity.Y = -JUMP_SPEED_LIMITED;
 				}
 			}
+		}
+
+		private bool CheckJumpKey(List<Keys> keys)
+		{
+			foreach (Keys key in keys)
+			{
+				if (key == Keys.W || key == Keys.Space)
+				{
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 		public void Update(float dt)

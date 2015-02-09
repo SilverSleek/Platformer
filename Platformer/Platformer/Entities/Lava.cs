@@ -9,7 +9,7 @@ namespace Platformer.Entities
 {
 	class Lava : IEventListener
 	{
-		private const int ASCENSION_SPEED = 50;
+		private const int ASCENSION_SPEED = 0;//50;
 
 		private Texture2D whitePixel;
 
