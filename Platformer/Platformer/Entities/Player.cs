@@ -13,7 +13,7 @@ namespace Platformer.Entities
 		private const int ACCELERATION = 2000;
 		private const int DECELERATION = 1700;
 		private const int MAX_SPEED = 300;
-		private const int JUMP_SPEED_INITIAL = 550;
+		private const int JUMP_SPEED_INITIAL = 600;
 		private const int JUMP_SPEED_LIMITED = 200;
 
 		private Vector2 position;
@@ -75,7 +75,7 @@ namespace Platformer.Entities
 			}
 			else
 			{
-				position = Vector2.Zero;
+				position = new Vector2(Constants.SCREEN_WIDTH / 2, 100);
 				velocity = Vector2.Zero;
 				acceleration = Vector2.Zero;
 				airborne = true;

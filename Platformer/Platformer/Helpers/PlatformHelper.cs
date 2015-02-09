@@ -34,6 +34,7 @@ namespace Platformer.Helpers
 		public void EventResponse(SimpleEvent simpleEvent)
 		{
 			platforms.Clear();
+			platforms.Add(new Platform(new Vector2(400, 400)));
 		}
 
 		public void Update(float dt)
