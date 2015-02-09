@@ -28,34 +28,32 @@ namespace Platformer.Entities
 		{
 			Texture2D texture = ContentLoader.LoadTexture("Player");
 
-			sprite = new Sprite(texture, null, Vector2.Zero, Color.White);
+			sprite = new Sprite(texture, Vector2.Zero);
 			halfBounds = new Vector2(texture.Width, texture.Height) / 2;
-			BoundingBox = new Rectangle(0, 0, texture.Width, texture.Height);
+			NewBoundingBox = new Rectangle(0, 0, texture.Width, texture.Height);
 			airborne = true;
 
 			SimpleEvent.AddListener(EventTypes.KEYBOARD, this);
 		}
 
-		public Rectangle BoundingBox { get; private set; }
+		public Rectangle OldBoundingBox { get; private set; }
+		public Rectangle NewBoundingBox { get; private set; }
 
-		public void RegisterCollision(CardinalDirections direction, float value)
+		public void RegisterCollision(CollisionDirections direction, float value)
 		{
 			switch (direction)
 			{
-				case CardinalDirections.UP:
-					break;
-
-				case CardinalDirections.DOWN:
+				case CollisionDirections.DOWN:
 					airborne = false;
 					position.Y = value - halfBounds.Y;
 					velocity.Y = 0;
 
 					break;
 
-				case CardinalDirections.LEFT:
+				case CollisionDirections.LEFT:
 					break;
 
-				case CardinalDirections.RIGHT:
+				case CollisionDirections.RIGHT:
 					break;
 			}
 
@@ -163,11 +161,12 @@ namespace Platformer.Entities
 		private void UpdateValues()
 		{
 			sprite.Position = position;
+			OldBoundingBox = NewBoundingBox;
 
-			Rectangle boundingBox = BoundingBox;
-			boundingBox.X = (int)(position.X - halfBounds.X);
-			boundingBox.Y = (int)(position.Y - halfBounds.Y);
-			BoundingBox = boundingBox;
+			Rectangle newBoundingBox = NewBoundingBox;
+			newBoundingBox.X = (int)(position.X - halfBounds.X);
+			newBoundingBox.Y = (int)(position.Y - halfBounds.Y);
+			NewBoundingBox = newBoundingBox;
 		}
 
 		private void CorrectVelocity(float dt)

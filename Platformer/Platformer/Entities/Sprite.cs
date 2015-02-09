@@ -9,6 +9,11 @@ namespace Platformer.Entities
 		private Rectangle? sourceRect;
 		private Vector2 origin;
 
+		public Sprite(Texture2D texture, Vector2 position) :
+			this(texture, null, position, Color.White)
+		{
+		}
+
 		public Sprite(Texture2D texture, Rectangle? sourceRect, Vector2 position, Color color)
 		{
 			this.texture = texture;

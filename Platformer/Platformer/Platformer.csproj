@@ -113,6 +113,7 @@
     <Compile Include="Entities\Events\MouseEventData.cs" />
     <Compile Include="Entities\Events\SimpleEvent.cs" />
     <Compile Include="Entities\Lava.cs" />
+    <Compile Include="Entities\Platform.cs" />
     <Compile Include="Entities\Player.cs" />
     <Compile Include="Entities\Sprite.cs" />
     <Compile Include="Entities\Timer.cs" />

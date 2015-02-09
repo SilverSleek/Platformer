@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -17,9 +19,8 @@ namespace Platformer
 		RELEASED_THIS_FRAME
 	}
 
-	public enum CardinalDirections
+	public enum CollisionDirections
 	{
-		UP,
 		DOWN,
 		LEFT,
 		RIGHT
@@ -36,6 +37,8 @@ namespace Platformer
 
 		private Player player;
 		private Lava lava;
+		private List<Platform> platforms;
+
 		private CollisionHelper collisionHelper;
 
 		public Game1()
@@ -59,7 +62,10 @@ namespace Platformer
 
 			player = new Player();
 			lava = new Lava();
-			collisionHelper = new CollisionHelper(player);
+			platforms = new List<Platform>();
+			platforms.Add(new Platform(new Vector2(400, 400)));
+
+			collisionHelper = new CollisionHelper(player, lava, platforms);
 
 			base.Initialize();
 		}
@@ -90,8 +96,15 @@ namespace Platformer
 
 			spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default,
 				RasterizerState.CullCounterClockwise, null, Camera.Instance.Transform);
+
+			foreach (Platform platform in platforms)
+			{
+				platform.Draw(spriteBatch);
+			}
+
 			player.Draw(spriteBatch);
 			lava.Draw(spriteBatch);
+
 			spriteBatch.End();
 		}
 	}
