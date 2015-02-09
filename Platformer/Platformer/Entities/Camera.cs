@@ -18,7 +18,7 @@ namespace Platformer.Entities
 
 		private Camera()
 		{
-			screenPosition = Vector2.Zero;
+			screenPosition = new Vector2(0, Constants.SCREEN_HEIGHT / 2);
 			VisibleArea = new Rectangle(-(int)screenPosition.X, -(int)screenPosition.Y, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT); 
 
 			Zoom = 1;
@@ -44,7 +44,7 @@ namespace Platformer.Entities
 			visibleArea.Y = (int)(correctedPosition.Y - screenPosition.Y);
 			VisibleArea = visibleArea;
 
-			Transform = Matrix.CreateTranslation(new Vector3(correctedPosition, 0)) * Matrix.CreateRotationZ(Rotation) * 
+			Transform = Matrix.CreateTranslation(new Vector3(-correctedPosition, 0)) * Matrix.CreateRotationZ(Rotation) * 
 				Matrix.CreateScale(Zoom) * Matrix.CreateTranslation(new Vector3(screenPosition, 0));
 			InverseTransform = Matrix.Invert(Transform);
 		}

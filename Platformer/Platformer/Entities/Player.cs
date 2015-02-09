@@ -78,6 +78,7 @@ namespace Platformer.Entities
 				position = Vector2.Zero;
 				velocity = Vector2.Zero;
 				acceleration = Vector2.Zero;
+				airborne = true;
 
 				UpdateValues();
 			}
@@ -182,6 +183,10 @@ namespace Platformer.Entities
 			newBoundingBox.X = (int)(position.X - halfBounds.X);
 			newBoundingBox.Y = (int)(position.Y - halfBounds.Y);
 			NewBoundingBox = newBoundingBox;
+
+			Vector2 cameraPosition = Camera.Instance.Position;
+			cameraPosition.Y = position.Y;
+			Camera.Instance.Position = cameraPosition;
 		}
 
 		private void CorrectVelocity(float dt)
