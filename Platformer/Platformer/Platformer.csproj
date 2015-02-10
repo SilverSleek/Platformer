@@ -113,6 +113,7 @@
     <Compile Include="Entities\Events\MouseEventData.cs" />
     <Compile Include="Entities\Events\SimpleEvent.cs" />
     <Compile Include="Entities\Hazards\Hazard.cs" />
+    <Compile Include="Entities\Hazards\Lavafall.cs" />
     <Compile Include="Entities\Hazards\RetractableSpikes.cs" />
     <Compile Include="Entities\Hazards\StationarySpikes.cs" />
     <Compile Include="Entities\Lava.cs" />

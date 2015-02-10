@@ -19,11 +19,16 @@ namespace Platformer.Entities
 		private const int JUMP_SPEED_LIMITED = 150;
 		private const int DOUBLE_JUMP_SPEED_INITIAL = 550;
 		private const int DOUBLE_JUMP_SPEED_LIMITED = 200;
+		private const int GROUND_TESTING_OFFSET = 2;
 
 		private Vector2 position;
 		private Vector2 velocity;
 		private Vector2 acceleration;
 		private Vector2 halfBounds;
+		private Vector2 groundTestingPointLeft;
+		private Vector2 groundTestingPointRight;
+
+		private Platform platform;
 		private Sprite sprite;
 
 		private bool airborne;
@@ -47,8 +52,10 @@ namespace Platformer.Entities
 		public Rectangle OldBoundingBox { get; private set; }
 		public Rectangle NewBoundingBox { get; private set; }
 
-		public void RegisterCollision(CollisionDirections direction, float value)
+		public void RegisterPlatformCollision(Platform platform, CollisionDirections direction, float value)
 		{
+			this.platform = platform;
+
 			switch (direction)
 			{
 				case CollisionDirections.DOWN:
@@ -178,12 +185,22 @@ namespace Platformer.Entities
 			{
 				velocity.Y += Constants.GRAVITY * dt;
 			}
+			else if (OffPlatform())
+			{
+				airborne = true;
+			}
 
 			CorrectVelocity(dt);
 
 			position += velocity * dt;
 
 			UpdateValues();
+		}
+
+		private bool OffPlatform()
+		{
+			return !platform.BoundingBox.Contains((int)groundTestingPointLeft.X, (int)groundTestingPointLeft.Y) &&
+				!platform.BoundingBox.Contains((int)groundTestingPointRight.X, (int)groundTestingPointRight.Y);
 		}
 
 		private void UpdateValues()
@@ -195,6 +212,9 @@ namespace Platformer.Entities
 			newBoundingBox.X = (int)(position.X - halfBounds.X);
 			newBoundingBox.Y = (int)(position.Y - halfBounds.Y);
 			NewBoundingBox = newBoundingBox;
+
+			groundTestingPointLeft = new Vector2(newBoundingBox.Left, newBoundingBox.Bottom + GROUND_TESTING_OFFSET);
+			groundTestingPointRight = new Vector2(newBoundingBox.Right, newBoundingBox.Bottom + GROUND_TESTING_OFFSET);
 
 			Vector2 cameraPosition = Camera.Instance.Position;
 			cameraPosition.Y = position.Y;

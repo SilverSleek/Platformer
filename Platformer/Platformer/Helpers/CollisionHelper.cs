@@ -38,11 +38,6 @@ namespace Platformer.Helpers
 		{
 			Rectangle playerBox = player.NewBoundingBox;
 
-			if (playerBox.Bottom >= Constants.SCREEN_HEIGHT)
-			{
-				player.RegisterCollision(CollisionDirections.DOWN, Constants.SCREEN_HEIGHT);
-			}
-
 			CheckLava(playerBox);
 			CheckPlatforms(playerBox);
 			CheckHazards(playerBox);
@@ -67,7 +62,7 @@ namespace Platformer.Helpers
 				{
 					if (intersection.Width == playerBox.Width && player.OldBoundingBox.Bottom <= platformBox.Top)
 					{
-						player.RegisterCollision(CollisionDirections.DOWN, platformBox.Top);
+						player.RegisterPlatformCollision(platform, CollisionDirections.DOWN, platformBox.Top);
 					}
 				}
 			}
