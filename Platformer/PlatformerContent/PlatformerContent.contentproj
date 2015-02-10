@@ -63,8 +63,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\SpikeDown.png">
+    <Compile Include="Textures\Hazards\SpikeDown.png">
       <Name>SpikeDown</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\Hazards\SpikeUp.png">
+      <Name>SpikeUp</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

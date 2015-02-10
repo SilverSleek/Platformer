@@ -8,17 +8,15 @@ namespace Platformer.Entities.Hazards
 	class StationarySpikes : Hazard
 	{
 		private static Texture2D texture;
-
 		private static int textureWidth;
 
 		static StationarySpikes()
 		{
-			texture = ContentLoader.LoadTexture("SpikeDown");
+			texture = ContentLoader.LoadTexture("Hazards/SpikeDown");
 			textureWidth = texture.Width;
 		}
 
 		private Vector2 position;
-
 		private int numSpikes;
 
 		public StationarySpikes(Platform platform)

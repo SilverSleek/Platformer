@@ -31,7 +31,7 @@ namespace Platformer.Helpers
 		{
 			hazards.Clear();
 			platforms.Clear();
-			platforms.Add(new Platform(new Vector2(400, 400)));
+			platforms.Add(new Platform(new Vector2(400, 400), HazardTypes.NONE));
 		}
 
 		public void Update()
@@ -77,12 +77,15 @@ namespace Platformer.Helpers
 		{
 			foreach (Hazard hazard in hazards)
 			{
-				Rectangle hazardBox = hazard.BoundingBox;
-				Rectangle intersection = Rectangle.Intersect(playerBox, hazardBox);
-
-				if (intersection != Rectangle.Empty)
+				if (hazard.Active)
 				{
-					SimpleEvent.AddEvent(EventTypes.RESET, null);
+					Rectangle hazardBox = hazard.BoundingBox;
+					Rectangle intersection = Rectangle.Intersect(playerBox, hazardBox);
+
+					if (intersection != Rectangle.Empty)
+					{
+						SimpleEvent.AddEvent(EventTypes.RESET, null);
+					}
 				}
 			}
 		}

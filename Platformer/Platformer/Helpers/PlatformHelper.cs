@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Platformer.Entities;
+using Platformer.Entities.Hazards;
 using Platformer.Shared;
 
 namespace Platformer.Helpers
@@ -33,13 +34,16 @@ namespace Platformer.Helpers
 
 			for (int i = 0; i < platforms.Count; i++)
 			{
-				if (platforms[i].BoundingBox.Top > lavaLevel)
+				Platform platform = platforms[i];
+
+				if (platform.BoundingBox.Top > lavaLevel)
 				{
+					platform.Destroy();
 					platforms.RemoveAt(i);
 				}
 				else
 				{
-					platforms[i].Update(dt);
+					platform.Update(dt);
 				}
 			}
 
@@ -55,7 +59,7 @@ namespace Platformer.Helpers
 				int x = random.Next(GENERATION_EDGE_OFFSET, Constants.SCREEN_WIDTH - GENERATION_EDGE_OFFSET + 1);
 				int y = topY - VERTICAL_SPACING;
 
-				platforms.Add(new Platform(new Vector2(x, y)));
+				platforms.Add(new Platform(new Vector2(x, y), HazardTypes.RETRACTABLE_SPIKES));
 			}
 		}
 
