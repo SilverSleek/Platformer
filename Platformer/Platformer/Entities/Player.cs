@@ -244,9 +244,10 @@ namespace Platformer.Entities
 			{
 				velocity.Y += Constants.GRAVITY * dt;
 			}
-			else if (OffPlatform())
+			else if (platform != null && (platform.Destroyed || OffPlatform()))
 			{
 				airborne = true;
+				platform = null;
 			}
 
 			UpdateVelocity(dt);

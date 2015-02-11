@@ -34,6 +34,10 @@ namespace Platformer.Entities
 			}
 		}
 
+		public Rectangle BoundingBox { get; private set; }
+
+		public bool Destroyed { get; set; }
+
 		private void CreateHazard(HazardTypes hazardType)
 		{
 			switch (hazardType)
@@ -54,10 +58,10 @@ namespace Platformer.Entities
 			hazards.Add(hazard);
 		}
 
-		public Rectangle BoundingBox { get; private set; }
-
 		public void Destroy()
 		{
+			Destroyed = true;
+
 			if (hazard != null)
 			{
 				hazard.Destroy();
