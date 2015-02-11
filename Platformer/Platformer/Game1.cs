@@ -101,7 +101,7 @@ namespace Platformer
 
 			platformHelper.Update(dt);
 			player.Update(dt);
-			lava.Update(dt);
+			lava.Update(gameTime, dt);
 			collisionHelper.Update();
 
 			Camera.Instance.Update();

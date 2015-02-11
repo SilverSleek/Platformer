@@ -45,10 +45,12 @@ namespace Platformer.Helpers
 
 		private void CheckLava(Rectangle playerBox)
 		{
+			/*
 			if (playerBox.Bottom >= lava.Level)
 			{
 				SimpleEvent.Queue.Enqueue(new SimpleEvent(EventTypes.RESET, null));
 			}
+			*/
 		}
 
 		private void CheckPlatforms(Rectangle playerBox)

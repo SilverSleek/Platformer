@@ -30,6 +30,7 @@ namespace Platformer.Helpers
 
 		public void Update(float dt)
 		{
+			/*
 			float lavaLevel = lava.Level;
 
 			for (int i = 0; i < platforms.Count; i++)
@@ -46,6 +47,7 @@ namespace Platformer.Helpers
 					platform.Update(dt);
 				}
 			}
+			*/
 
 			GeneratePlatforms();
 		}
