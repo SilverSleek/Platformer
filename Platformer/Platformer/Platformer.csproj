@@ -133,6 +133,7 @@
     <Compile Include="Shared\Constants.cs" />
     <Compile Include="Shared\ContentLoader.cs" />
     <Compile Include="Shared\DrawingFunctions.cs" />
+    <Compile Include="Shared\Functions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

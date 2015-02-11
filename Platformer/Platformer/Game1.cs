@@ -32,6 +32,8 @@ namespace Platformer
 
 	class Game1 : Game, IEventListener
 	{
+		private const int TIME_FACTOR = 1;
+
 		private GraphicsDeviceManager graphics;
 		private SpriteBatch spriteBatch;
 
@@ -94,7 +96,7 @@ namespace Platformer
 
 		protected override void Update(GameTime gameTime)
 		{
-			float dt = (float)gameTime.ElapsedGameTime.Milliseconds / 1000;
+			float dt = (float)gameTime.ElapsedGameTime.Milliseconds / 1000 / TIME_FACTOR;
 
 			inputManager.Update();
 			eventManager.Update();
@@ -102,7 +104,7 @@ namespace Platformer
 
 			platformHelper.Update(dt);
 			player.Update(dt);
-			lava.Update(gameTime, dt);
+			lava.Update(dt);
 			collisionHelper.Update();
 
 			Camera.Instance.Update();

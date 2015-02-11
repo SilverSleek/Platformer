@@ -22,19 +22,11 @@ namespace Platformer.Shared
 		public static void DrawLine(SpriteBatch sb, Vector2 start, Vector2 end, Color color)
 		{
 			float length = (end - start).Length();
-			float rotation = ComputeAngle(start, end);
+			float rotation = Functions.ComputeAngle(start, end);
 
 			Rectangle sourceRect = new Rectangle(0, 0, (int)length, 1);
 
 			sb.Draw(whitePixel, start, sourceRect, color, rotation, Vector2.Zero, 1, SpriteEffects.None, 0);
-		}
-
-		private static float ComputeAngle(Vector2 start, Vector2 end)
-		{
-			float dX = end.X - start.X;
-			float dY = end.Y - start.Y;
-
-			return (float)Math.Atan2(dY, dX);
 		}
 
 		public static void DrawRectangle(SpriteBatch sb, Rectangle rectangle, Color color)

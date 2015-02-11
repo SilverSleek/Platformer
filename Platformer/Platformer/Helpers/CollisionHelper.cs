@@ -19,7 +19,7 @@ namespace Platformer.Helpers
 		private List<Platform> platforms;
 		private List<Hazard> hazards;
 
-		private bool intersectingLava;
+		private bool submerged;
 
 		public CollisionHelper(Player player, Lava lava, List<Platform> platforms, List<Hazard> hazards)
 		{
@@ -49,36 +49,21 @@ namespace Platformer.Helpers
 
 		private void CheckLava(Rectangle playerBox)
 		{
-			if (CheckLavaIntersection(playerBox))
+			Vector2 bottomLeft = new Vector2(playerBox.Left, playerBox.Bottom);
+			Vector2 bottomRight = new Vector2(playerBox.Right, playerBox.Bottom);
+
+			if (lava.CheckSubmerged(bottomLeft) || lava.CheckSubmerged(bottomRight))
 			{
-				if (!intersectingLava)
+				if (!submerged)
 				{
 					player.RegisterDamage(CollisionDirections.DOWN);
-					intersectingLava = true;
+					submerged = true;
 				}
 			}
-			else if (intersectingLava)
+			else if (submerged)
 			{
-				intersectingLava = false;
+				submerged = false;
 			}
-		}
-
-		private bool CheckLavaIntersection(Rectangle playerBox)
-		{
-			Vector2[] points = lava.Points;
-
-			int leftIndex = (int)(playerBox.Left / lava.Increment);
-			int rightIndex = (int)(playerBox.Right / lava.Increment) + 1;
-
-			for (int i = leftIndex; i <= rightIndex; i++)
-			{
-				if (playerBox.Contains((int)points[i].X, (int)points[i].Y))
-				{
-					return true;
-				}
-			}
-
-			return false;
 		}
 
 		private void CheckPlatforms(Rectangle playerBox)

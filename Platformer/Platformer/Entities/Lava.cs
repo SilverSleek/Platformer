@@ -13,7 +13,7 @@ namespace Platformer.Entities
 {
 	class Lava : IEventListener
 	{
-		private const int NUM_POINTS = 50;
+		private const int NUM_SEGMENTS = 25;
 		private const int NUM_SINE_WAVES = 2;
 		private const int MIN_AMPLITUDE = 50;
 		private const int MAX_AMPLITUDE = 60;
@@ -25,16 +25,19 @@ namespace Platformer.Entities
 
 		private Random random;
 		private Texture2D whitePixel;
+		private Vector2[] points;
 		private SineWave[] sineWaves;
 
 		private float totalAscension;
+		private float increment;
+		private float totalMilliseconds;
 
 		public Lava()
 		{
 			random = new Random();
 			whitePixel = ContentLoader.LoadTexture("WhitePixel");
 			totalAscension = -Constants.SCREEN_HEIGHT;
-			Increment = (float)Constants.SCREEN_WIDTH / NUM_POINTS;
+			increment = (float)Constants.SCREEN_WIDTH / NUM_SEGMENTS;
 
 			GeneratePoints();
 			GenerateSineWaves();
@@ -42,19 +45,13 @@ namespace Platformer.Entities
 			SimpleEvent.AddEvent(EventTypes.LISTENER, new ListenerEventData(EventTypes.RESET, this));
 		}
 
-		public Vector2[] Points { get; private set; }
-		
-		public float Increment { get; private set; }
-
 		private void GeneratePoints()
 		{
-			Points = new Vector2[NUM_POINTS];
+			points = new Vector2[NUM_SEGMENTS + 1];
 
-			for (int i = 0; i < Points.Length; i++)
+			for (int i = 0; i < points.Length; i++)
 			{
-				Vector2 point = Points[i];
-				point.X = (float)i / (NUM_POINTS - 1) * Constants.SCREEN_WIDTH;
-				Points[i] = point;
+				points[i].X = (float)i / (NUM_SEGMENTS) * Constants.SCREEN_WIDTH;
 			}
 		}
 
@@ -77,6 +74,17 @@ namespace Platformer.Entities
 			return (float)random.NextDouble() * (max - min) + min;
 		}
 
+		public bool CheckSubmerged(Vector2 point)
+		{
+			int index = (int)(point.X / increment);
+
+			Vector2 a = points[index];
+			Vector2 b = points[index + 1];
+
+			// taken from http://stackoverflow.com/questions/1560492/how-to-tell-whether-a-point-is-to-the-right-or-left-side-of-a-line
+			return Math.Sign((b.X - a.X) * (point.Y - a.Y) - (b.Y - a.Y) * (point.X - a.X)) == 1;
+		}
+
 		public void EventResponse(SimpleEvent simpleEvent)
 		{
 			GenerateSineWaves();
@@ -84,15 +92,14 @@ namespace Platformer.Entities
 			totalAscension = -Constants.SCREEN_HEIGHT;
 		}
 
-		public void Update(GameTime gameTime, float dt)
+		public void Update(float dt)
 		{
 			totalAscension += ASCENSION_SPEED * dt;
+			totalMilliseconds += dt * 1000;
 
-			float totalMilliseconds = (float)gameTime.TotalGameTime.TotalMilliseconds;
-
-			for (int i = 0; i < NUM_POINTS; i++)
+			for (int i = 0; i < points.Length; i++)
 			{
-				float amount = (float)i / NUM_POINTS;
+				float amount = (float)i / points.Length;
 				float y = -totalAscension;
 
 				foreach (SineWave wave in sineWaves)
@@ -102,17 +109,15 @@ namespace Platformer.Entities
 					y -= (float)Math.Sin(amount * wave.Frequency * MathHelper.TwoPi + timeOffset) * wave.Amplitude;
 				}
 
-				Vector2 point = Points[i];
-				point.Y = y;
-				Points[i] = point;
+				points[i].Y = y;
 			}
 		}
 
 		public void Draw(SpriteBatch sb)
 		{
-			for (int i = 0; i < Points.Length - 1; i++)
+			for (int i = 0; i < points.Length - 1; i++)
 			{
-				DrawingFunctions.DrawLine(sb, Points[i], Points[i + 1], Color.Red);
+				DrawingFunctions.DrawLine(sb, points[i], points[i + 1], Color.Red);
 			}
 		}
 
