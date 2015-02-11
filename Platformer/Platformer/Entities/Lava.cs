@@ -34,6 +34,7 @@ namespace Platformer.Entities
 			random = new Random();
 			whitePixel = ContentLoader.LoadTexture("WhitePixel");
 			totalAscension = -Constants.SCREEN_HEIGHT;
+			Increment = (float)Constants.SCREEN_WIDTH / NUM_POINTS;
 
 			GeneratePoints();
 			GenerateSineWaves();
@@ -42,6 +43,8 @@ namespace Platformer.Entities
 		}
 
 		public Vector2[] Points { get; private set; }
+		
+		public float Increment { get; private set; }
 
 		private void GeneratePoints()
 		{

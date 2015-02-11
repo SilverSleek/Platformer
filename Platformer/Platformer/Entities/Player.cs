@@ -82,7 +82,7 @@ namespace Platformer.Entities
 			UpdateValues();
 		}
 
-		public void RegisterHazardCollision(CollisionDirections direction)
+		public void RegisterDamage(CollisionDirections direction)
 		{
 			health--;
 
@@ -109,6 +109,12 @@ namespace Platformer.Entities
 						}
 
 						break;
+				}
+
+				if (doubleJumpActive)
+				{
+					doubleJumpEnabled = true;
+					doubleJumpActive = false;
 				}
 			}
 		}
