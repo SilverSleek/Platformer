@@ -113,13 +113,11 @@ namespace Platformer.Entities
 
 					case CollisionDirections.LEFT:
 						velocity.X = COLLISION_LAUNCH_SPEED_HORIZONTAL;
-						launched = true;
 
 						break;
 
 					case CollisionDirections.RIGHT:
 						velocity.X = -COLLISION_LAUNCH_SPEED_HORIZONTAL;
-						launched = true;
 
 						break;
 				}

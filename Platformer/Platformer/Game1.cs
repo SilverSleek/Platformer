@@ -120,7 +120,7 @@ namespace Platformer
 			spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default,
 				RasterizerState.CullCounterClockwise, null, Camera.Instance.Transform);
 
-			background.Draw(spriteBatch);
+			//background.Draw(spriteBatch);
 			platformHelper.Draw(spriteBatch);
 			player.Draw(spriteBatch);
 			lava.Draw(spriteBatch);
