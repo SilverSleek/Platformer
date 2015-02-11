@@ -24,6 +24,7 @@ namespace Platformer
 
 	public enum CollisionDirections
 	{
+		UP,
 		DOWN,
 		LEFT,
 		RIGHT

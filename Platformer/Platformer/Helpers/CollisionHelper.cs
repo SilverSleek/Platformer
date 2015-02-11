@@ -14,6 +14,8 @@ namespace Platformer.Helpers
 	{
 		private Player player;
 		private Lava lava;
+		private Hazard lastHazard;
+
 		private List<Platform> platforms;
 		private List<Hazard> hazards;
 
@@ -74,14 +76,23 @@ namespace Platformer.Helpers
 		{
 			foreach (Hazard hazard in hazards)
 			{
-				if (hazard.Active)
+				Rectangle hazardBox = hazard.BoundingBox;
+
+				if (hazard == lastHazard)
 				{
-					Rectangle hazardBox = hazard.BoundingBox;
+					if (!lastHazard.Active || Rectangle.Intersect(playerBox, hazardBox) == Rectangle.Empty)
+					{
+						lastHazard = null;
+					}
+				}
+				else if (hazard.Active)
+				{
 					Rectangle intersection = Rectangle.Intersect(playerBox, hazardBox);
 
 					if (intersection != Rectangle.Empty)
 					{
-						SimpleEvent.AddEvent(EventTypes.RESET, null);
+						lastHazard = hazard;
+						player.RegisterHazardCollision(CollisionDirections.UP);
 					}
 				}
 			}

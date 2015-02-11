@@ -26,6 +26,7 @@ namespace Platformer.Entities.Hazards
 			position = new Vector2(platformBox.Left, platformBox.Bottom);
 			numSpikes = platformBox.Width / textureWidth;
 			BoundingBox = new Rectangle((int)position.X, (int)position.Y, numSpikes * textureWidth, texture.Height);
+			Active = true;
 		}
 
 		public override void Draw(SpriteBatch sb)

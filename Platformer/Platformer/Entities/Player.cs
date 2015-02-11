@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using Platformer.Entities.Events;
+using Platformer.Entities.Hazards;
 using Platformer.Interfaces;
 using Platformer.Shared;
 
@@ -19,7 +20,9 @@ namespace Platformer.Entities
 		private const int JUMP_SPEED_LIMITED = 150;
 		private const int DOUBLE_JUMP_SPEED_INITIAL = 550;
 		private const int DOUBLE_JUMP_SPEED_LIMITED = 200;
+		private const int COLLISION_LAUNCH_SPEED = 750;
 		private const int GROUND_TESTING_OFFSET = 2;
+		private const int STARTING_HEALTH = 3;
 
 		private Vector2 position;
 		private Vector2 velocity;
@@ -35,6 +38,8 @@ namespace Platformer.Entities
 		private bool doubleJumpEnabled;
 		private bool doubleJumpActive;
 
+		private int health;
+
 		public Player()
 		{
 			Texture2D texture = ContentLoader.LoadTexture("Player");
@@ -42,8 +47,8 @@ namespace Platformer.Entities
 			sprite = new Sprite(texture, position);
 			halfBounds = new Vector2(texture.Width, texture.Height) / 2;
 			NewBoundingBox = new Rectangle(0, 0, texture.Width, texture.Height);
-			airborne = true;
-			doubleJumpEnabled = true;
+
+			ResetValues();
 
 			SimpleEvent.AddEvent(EventTypes.LISTENER, new ListenerEventData(EventTypes.KEYBOARD, this));
 			SimpleEvent.AddEvent(EventTypes.LISTENER, new ListenerEventData(EventTypes.RESET, this));
@@ -77,6 +82,37 @@ namespace Platformer.Entities
 			UpdateValues();
 		}
 
+		public void RegisterHazardCollision(CollisionDirections direction)
+		{
+			health--;
+
+			if (health == 0)
+			{
+				SimpleEvent.AddEvent(EventTypes.RESET, null);
+			}
+			else
+			{
+				switch (direction)
+				{
+					case CollisionDirections.UP:
+						if (velocity.Y < COLLISION_LAUNCH_SPEED)
+						{
+							velocity.Y = COLLISION_LAUNCH_SPEED;
+						}
+
+						break;
+
+					case CollisionDirections.DOWN:
+						if (velocity.Y > -COLLISION_LAUNCH_SPEED)
+						{
+							velocity.Y = -COLLISION_LAUNCH_SPEED;
+						}
+
+						break;
+				}
+			}
+		}
+
 		public void EventResponse(SimpleEvent simpleEvent)
 		{
 			EventTypes eventType = simpleEvent.Type;
@@ -90,15 +126,21 @@ namespace Platformer.Entities
 			}
 			else
 			{
-				position = new Vector2(Constants.SCREEN_WIDTH / 2, 300);
-				velocity = Vector2.Zero;
-				acceleration = Vector2.Zero;
-				airborne = true;
-				doubleJumpEnabled = true;
-				doubleJumpActive = false;
-
-				UpdateValues();
+				ResetValues();
 			}
+		}
+
+		private void ResetValues()
+		{
+			position = new Vector2(Constants.SCREEN_WIDTH / 2, 300);
+			velocity = Vector2.Zero;
+			acceleration = Vector2.Zero;
+			airborne = true;
+			doubleJumpEnabled = true;
+			doubleJumpActive = false;
+			health = STARTING_HEALTH;
+
+			UpdateValues();
 		}
 
 		private void HandleRunning(KeyboardEventData data)
