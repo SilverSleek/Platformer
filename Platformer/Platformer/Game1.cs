@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Platformer.Entities;
 using Platformer.Entities.Events;
 using Platformer.Entities.Hazards;
+using Platformer.Entities.Particles;
 using Platformer.Interfaces;
 using Platformer.Helpers;
 using Platformer.Managers;
@@ -46,6 +47,8 @@ namespace Platformer
 		private Lava lava;
 		private Background background;
 
+		private List<Ash> ashes;
+
 		private PlatformHelper platformHelper;
 		private CollisionHelper collisionHelper;
 
@@ -73,6 +76,18 @@ namespace Platformer
 			player = new Player();
 			lava = new Lava();
 			background = new Background();
+
+			ashes = new List<Ash>();
+
+			for (int i = 0; i < 25; i++)
+			{
+				float x = Functions.GetRandomValue(0, Constants.SCREEN_WIDTH);
+				float y = Functions.GetRandomValue(0, Constants.SCREEN_HEIGHT);
+				float velocityX = Functions.GetRandomValue(-4, 4);
+				float velocityY = Functions.GetRandomValue(10, 20);
+
+				ashes.Add(new Ash(new Vector2(x, y), new Vector2(velocityX, velocityY)));
+			}
 
 			List<Platform> platforms = new List<Platform>();
 			List<Hazard> hazards = new List<Hazard>();
@@ -105,6 +120,11 @@ namespace Platformer
 			eventManager.Update();
 			timerManager.Update(dt);
 
+			foreach (Ash ash in ashes)
+			{
+				ash.Update(dt);
+			}
+
 			lava.Update(dt);
 			platformHelper.Update(dt);
 			player.Update(dt);
@@ -124,6 +144,11 @@ namespace Platformer
 			platformHelper.Draw(spriteBatch);
 			player.Draw(spriteBatch);
 			lava.Draw(spriteBatch);
+
+			foreach (Ash ash in ashes)
+			{
+				ash.Draw(spriteBatch);
+			}
 
 			spriteBatch.End();
 		}

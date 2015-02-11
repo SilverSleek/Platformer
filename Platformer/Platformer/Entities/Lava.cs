@@ -21,7 +21,7 @@ namespace Platformer.Entities
 		private const int MAX_FREQUENCY = 2;
 		private const int MIN_CYCLE_SPEED = 12000;
 		private const int MAX_CYCLE_SPEED = 18000;
-		private const int ASCENSION_SPEED = 50;
+		private const int ASCENSION_SPEED = 0;//50;
 
 		private Random random;
 		private Texture2D whitePixel;

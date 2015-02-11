@@ -6,6 +6,18 @@ namespace Platformer.Shared
 {
 	class Functions
 	{
+		private static Random random;
+
+		static Functions()
+		{
+			random = new Random();
+		}
+
+		public static float GetRandomValue(float min, float max)
+		{
+			return (float)random.NextDouble() * (max - min) + min;
+		}
+
 		public static float ComputeAngle(Vector2 start, Vector2 end)
 		{
 			float dX = end.X - start.X;
