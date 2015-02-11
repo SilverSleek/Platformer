@@ -46,5 +46,10 @@ namespace Platformer.Shared
 			sb.Draw(whitePixel, destinationRectTop, color);
 			sb.Draw(whitePixel, destinationRectBottom, color);
 		}
+
+		public static void FillRectangle(SpriteBatch sb, Rectangle rectangle, Color color)
+		{
+			sb.Draw(whitePixel, rectangle, color);
+		}
 	}
 }
