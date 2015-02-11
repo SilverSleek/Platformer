@@ -43,6 +43,7 @@ namespace Platformer
 
 		private Player player;
 		private Lava lava;
+		private Background background;
 
 		private PlatformHelper platformHelper;
 		private CollisionHelper collisionHelper;
@@ -70,6 +71,7 @@ namespace Platformer
 
 			player = new Player();
 			lava = new Lava();
+			background = new Background();
 
 			List<Platform> platforms = new List<Platform>();
 			List<Hazard> hazards = new List<Hazard>();
@@ -117,6 +119,7 @@ namespace Platformer
 			spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default,
 				RasterizerState.CullCounterClockwise, null, Camera.Instance.Transform);
 
+			background.Draw(spriteBatch);
 			platformHelper.Draw(spriteBatch);
 			player.Draw(spriteBatch);
 			lava.Draw(spriteBatch);
