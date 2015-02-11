@@ -46,7 +46,7 @@ namespace Platformer.Entities
 					hazard = new RetractableSpikes(this);
 					break;
 
-				case HazardTypes.LAVA_FALLS_SOURCE:
+				case HazardTypes.LAVA_FALLS:
 					hazard = new Lavafall(this);
 					break;
 			}

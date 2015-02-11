@@ -27,7 +27,8 @@ namespace Platformer
 		UP,
 		DOWN,
 		LEFT,
-		RIGHT
+		RIGHT,
+		NONE
 	}
 
 	class Game1 : Game, IEventListener

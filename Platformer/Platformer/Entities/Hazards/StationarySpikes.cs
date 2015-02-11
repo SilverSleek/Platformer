@@ -19,7 +19,8 @@ namespace Platformer.Entities.Hazards
 		private Vector2 position;
 		private int numSpikes;
 
-		public StationarySpikes(Platform platform)
+		public StationarySpikes(Platform platform) :
+			base(HazardTypes.STATIONARY_SPIKES)
 		{
 			Rectangle platformBox = platform.BoundingBox;
 

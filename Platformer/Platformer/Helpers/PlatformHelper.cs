@@ -61,7 +61,7 @@ namespace Platformer.Helpers
 				int x = random.Next(GENERATION_EDGE_OFFSET, Constants.SCREEN_WIDTH - GENERATION_EDGE_OFFSET + 1);
 				int y = topY - VERTICAL_SPACING;
 
-				platforms.Add(new Platform(new Vector2(x, y), HazardTypes.LAVA_FALLS_SOURCE));
+				platforms.Add(new Platform(new Vector2(x, y), HazardTypes.LAVA_FALLS));
 			}
 		}
 

@@ -7,14 +7,20 @@ namespace Platformer.Entities.Hazards
 	{
 		STATIONARY_SPIKES,
 		RETRACTABLE_SPIKES,
-		LAVA_FALLS_SOURCE,
-		LAVA_FALLS_BASE,
+		LAVA_FALLS,
 		NONE
 	}
 
 	abstract class Hazard
 	{
+		protected Hazard(HazardTypes type)
+		{
+			Type = type;
+		}
+
 		public Rectangle BoundingBox { get; protected set; }
+		public HazardTypes Type { get; private set; }
+		
 		public bool Active { get; protected set; }
 
 		public virtual void Destroy()

@@ -42,7 +42,8 @@ namespace Platformer.Entities.Hazards
 		private int partialExtensionTarget;
 		private int fullExtensionTarget;
 
-		public RetractableSpikes(Platform platform)
+		public RetractableSpikes(Platform platform) :
+			base(HazardTypes.RETRACTABLE_SPIKES)
 		{
 			Rectangle platformBox = platform.BoundingBox;
 

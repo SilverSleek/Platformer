@@ -103,10 +103,27 @@ namespace Platformer.Helpers
 					if (intersection != Rectangle.Empty)
 					{
 						lastHazard = hazard;
-						player.RegisterDamage(CollisionDirections.UP);
+						player.RegisterDamage(GetCollisionDirection(playerBox, hazardBox, hazard.Type));
 					}
 				}
 			}
+		}
+
+		private CollisionDirections GetCollisionDirection(Rectangle playerBox, Rectangle hazardBox, HazardTypes hazardType)
+		{
+			switch (hazardType)
+			{
+				case HazardTypes.STATIONARY_SPIKES:
+					return CollisionDirections.UP;
+					
+				case HazardTypes.RETRACTABLE_SPIKES:
+					return CollisionDirections.DOWN;
+
+				case HazardTypes.LAVA_FALLS:
+					return playerBox.Left < hazardBox.Left ? CollisionDirections.RIGHT : CollisionDirections.LEFT;
+			}
+
+			return CollisionDirections.NONE;
 		}
 	}
 }

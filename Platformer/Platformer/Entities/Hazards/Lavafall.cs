@@ -10,12 +10,14 @@ namespace Platformer.Entities.Hazards
 		private Vector2 bottomPosition;
 		private Vector2 bottomVelocity;
 
-		public Lavafall(Platform platform)
+		public Lavafall(Platform platform) :
+			base(HazardTypes.LAVA_FALLS)
 		{
 			Rectangle platformBox = platform.BoundingBox;
 
 			bottomPosition = new Vector2(platformBox.Left + platformBox.Width / 2, platformBox.Bottom);
 			BoundingBox = new Rectangle(platformBox.Left, platformBox.Bottom, platformBox.Width, 0);
+			Active = true;
 		}
 
 		public override void Update(float dt)

@@ -20,7 +20,8 @@ namespace Platformer.Entities
 		private const int JUMP_SPEED_LIMITED = 150;
 		private const int DOUBLE_JUMP_SPEED_INITIAL = 550;
 		private const int DOUBLE_JUMP_SPEED_LIMITED = 200;
-		private const int COLLISION_LAUNCH_SPEED = 750;
+		private const int COLLISION_LAUNCH_SPEED_VERTICAL = 750;
+		private const int COLLISION_LAUNCH_SPEED_HORIZONTAL = 300;
 		private const int GROUND_TESTING_OFFSET = 2;
 		private const int STARTING_HEALTH = 3;
 
@@ -95,18 +96,30 @@ namespace Platformer.Entities
 				switch (direction)
 				{
 					case CollisionDirections.UP:
-						if (velocity.Y < COLLISION_LAUNCH_SPEED)
+						if (velocity.Y < COLLISION_LAUNCH_SPEED_VERTICAL)
 						{
-							velocity.Y = COLLISION_LAUNCH_SPEED;
+							velocity.Y = COLLISION_LAUNCH_SPEED_VERTICAL;
 						}
 
 						break;
 
 					case CollisionDirections.DOWN:
-						if (velocity.Y > -COLLISION_LAUNCH_SPEED)
+						if (velocity.Y > -COLLISION_LAUNCH_SPEED_VERTICAL)
 						{
-							velocity.Y = -COLLISION_LAUNCH_SPEED;
+							velocity.Y = -COLLISION_LAUNCH_SPEED_VERTICAL;
 						}
+
+						break;
+
+					case CollisionDirections.LEFT:
+						velocity.X = COLLISION_LAUNCH_SPEED_HORIZONTAL;
+						launched = true;
+
+						break;
+
+					case CollisionDirections.RIGHT:
+						velocity.X = -COLLISION_LAUNCH_SPEED_HORIZONTAL;
+						launched = true;
 
 						break;
 				}
@@ -238,7 +251,7 @@ namespace Platformer.Entities
 				airborne = true;
 			}
 
-			CorrectVelocity(dt);
+			UpdateVelocity(dt);
 
 			position += velocity * dt;
 
@@ -269,7 +282,7 @@ namespace Platformer.Entities
 			Camera.Instance.Position = cameraPosition;
 		}
 
-		private void CorrectVelocity(float dt)
+		private void UpdateVelocity(float dt)
 		{
 			if (velocity.X > MAX_SPEED)
 			{
