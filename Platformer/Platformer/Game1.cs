@@ -102,9 +102,9 @@ namespace Platformer
 			eventManager.Update();
 			timerManager.Update(dt);
 
+			lava.Update(dt);
 			platformHelper.Update(dt);
 			player.Update(dt);
-			lava.Update(dt);
 			collisionHelper.Update();
 
 			Camera.Instance.Update();

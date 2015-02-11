@@ -30,14 +30,15 @@ namespace Platformer.Helpers
 
 		public void Update(float dt)
 		{
-			/*
-			float lavaLevel = lava.Level;
-
 			for (int i = 0; i < platforms.Count; i++)
 			{
 				Platform platform = platforms[i];
 
-				if (platform.BoundingBox.Top > lavaLevel)
+				Rectangle boundingBox = platform.BoundingBox;
+				Vector2 bottomLeft = new Vector2(boundingBox.Left, boundingBox.Bottom);
+				Vector2 bottomRight = new Vector2(boundingBox.Right, boundingBox.Bottom);
+
+				if (lava.CheckSubmerged(bottomLeft) || lava.CheckSubmerged(bottomRight))
 				{
 					platform.Destroy();
 					platforms.RemoveAt(i);
@@ -47,7 +48,6 @@ namespace Platformer.Helpers
 					platform.Update(dt);
 				}
 			}
-			*/
 
 			GeneratePlatforms();
 		}
