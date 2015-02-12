@@ -74,7 +74,7 @@ namespace Platformer
 			timerManager = new TimerManager();
 
 			player = new Player();
-			lava = new Lava();
+			lava = new Lava(GraphicsDevice);
 			background = new Background();
 
 			ashes = new List<Ash>();
@@ -135,7 +135,7 @@ namespace Platformer
 
 		protected override void Draw(GameTime gameTime)
 		{
-			GraphicsDevice.Clear(Color.White);
+			GraphicsDevice.Clear(Color.DarkGray);
 
 			spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default,
 				RasterizerState.CullCounterClockwise, null, Camera.Instance.Transform);
