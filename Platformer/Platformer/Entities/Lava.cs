@@ -61,17 +61,12 @@ namespace Platformer.Entities
 
 			for (int i = 0; i < sineWaves.Length; i++)
 			{
-				float amplitude = GetRandomValue(MIN_AMPLITUDE, MAX_AMPLITUDE);
-				float frequency = GetRandomValue(MIN_FREQUENCY, MAX_FREQUENCY);
-				float cycleSpeed = GetRandomValue(MIN_CYCLE_SPEED, MAX_CYCLE_SPEED);
+				float amplitude = Functions.GetRandomValue(MIN_AMPLITUDE, MAX_AMPLITUDE);
+				float frequency = Functions.GetRandomValue(MIN_FREQUENCY, MAX_FREQUENCY);
+				float cycleSpeed = Functions.GetRandomValue(MIN_CYCLE_SPEED, MAX_CYCLE_SPEED);
 
 				sineWaves[i] = new SineWave(amplitude, frequency, cycleSpeed);
 			}
-		}
-
-		private float GetRandomValue(int min, int max)
-		{
-			return (float)random.NextDouble() * (max - min) + min;
 		}
 
 		public bool CheckSubmerged(Vector2 point)
