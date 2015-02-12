@@ -11,8 +11,8 @@ namespace Platformer.Entities.Particles
 	{
 		private const float MIN_ANGULAR_VELOCITY = -1.5f;
 		private const float MAX_ANGULAR_VELOCITY = 1.5f;
-		private const int MIN_SCALE_DELAY = 1750;
-		private const int MAX_SCALE_DELAY = 2750;
+		private const int MIN_SCALE_DELAY = 750;
+		private const int MAX_SCALE_DELAY = 1250;
 		private const int MIN_SCALE_DURATION = 600;
 		private const int MAX_SCALE_DURATION = 800;
 
