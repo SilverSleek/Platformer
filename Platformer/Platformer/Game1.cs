@@ -135,7 +135,7 @@ namespace Platformer
 
 		protected override void Draw(GameTime gameTime)
 		{
-			GraphicsDevice.Clear(Color.DarkGray);
+			GraphicsDevice.Clear(Color.White);
 
 			spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default,
 				RasterizerState.CullCounterClockwise, null, Camera.Instance.Transform);

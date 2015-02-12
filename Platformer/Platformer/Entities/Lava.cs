@@ -248,8 +248,15 @@ namespace Platformer.Entities
 
 		public void Draw(SpriteBatch sb)
 		{
+			for (int i = 0; i < points.Length - 1; i++)
+			{
+				DrawingFunctions.DrawLine(sb, points[i], points[i + 1], Color.Red);
+			}
+
+			/*
 			basicEffect.CurrentTechnique.Passes[0].Apply();
 			graphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.TriangleList, vertexData, 0, primitiveCount);
+			*/		
 		}
 
 		private class SineWave
