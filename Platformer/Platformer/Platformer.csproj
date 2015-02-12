@@ -123,6 +123,7 @@
     <Compile Include="Entities\Particles\Particle.cs" />
     <Compile Include="Entities\Platform.cs" />
     <Compile Include="Entities\Player.cs" />
+    <Compile Include="Entities\Screens\SplashScreen.cs" />
     <Compile Include="Entities\Sprite.cs" />
     <Compile Include="Entities\Timer.cs" />
     <Compile Include="Helpers\CollisionHelper.cs" />
