@@ -87,32 +87,6 @@ namespace Platformer
 
 			SwitchGamestate(Gamestates.SPLASH);
 
-			player = new Player();
-			lava = new Lava(GraphicsDevice);
-			background = new Background();
-
-			ashes = new List<Ash>();
-
-			for (int i = 0; i < 25; i++)
-			{
-				float x = Functions.GetRandomValue(0, Constants.SCREEN_WIDTH);
-				float y = Functions.GetRandomValue(0, Constants.SCREEN_HEIGHT);
-				float velocityX = Functions.GetRandomValue(-4, 4);
-				float velocityY = Functions.GetRandomValue(10, 20);
-
-				ashes.Add(new Ash(new Vector2(x, y), new Vector2(velocityX, velocityY)));
-			}
-
-			List<Platform> platforms = new List<Platform>();
-			List<Hazard> hazards = new List<Hazard>();
-
-			platformHelper = new PlatformHelper(platforms, lava);
-			collisionHelper = new CollisionHelper(player, lava, platforms, hazards);
-
-			Platform.Initialize(hazards);
-
-			SimpleEvent.AddEvent(EventTypes.RESET, null);
-
 			base.Initialize();
 		}
 		
@@ -142,7 +116,40 @@ namespace Platformer
 				case Gamestates.SPLASH:
 					splashScreen = new SplashScreen();
 					break;
+
+				case Gamestates.GAMEPLAY:
+					InitializeGameplay();
+					break;
 			}
+		}
+
+		private void InitializeGameplay()
+		{
+			player = new Player();
+			lava = new Lava(GraphicsDevice);
+			background = new Background();
+
+			ashes = new List<Ash>();
+
+			for (int i = 0; i < 25; i++)
+			{
+				float x = Functions.GetRandomValue(0, Constants.SCREEN_WIDTH);
+				float y = Functions.GetRandomValue(0, Constants.SCREEN_HEIGHT);
+				float velocityX = Functions.GetRandomValue(-4, 4);
+				float velocityY = Functions.GetRandomValue(10, 20);
+
+				ashes.Add(new Ash(new Vector2(x, y), new Vector2(velocityX, velocityY)));
+			}
+
+			List<Platform> platforms = new List<Platform>();
+			List<Hazard> hazards = new List<Hazard>();
+
+			platformHelper = new PlatformHelper(platforms, lava);
+			collisionHelper = new CollisionHelper(player, lava, platforms, hazards);
+
+			Platform.Initialize(hazards);
+
+			SimpleEvent.AddEvent(EventTypes.RESET, null);
 		}
 
 		protected override void Update(GameTime gameTime)
@@ -180,30 +187,37 @@ namespace Platformer
 		{
 			GraphicsDevice.Clear(Color.Black);
 
-			spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default,
-				RasterizerState.CullCounterClockwise, null, Camera.Instance.Transform);
-
 			switch (gamestate)
 			{
 				case Gamestates.SPLASH:
+					spriteBatch.Begin();
 					splashScreen.Draw(spriteBatch);
+					spriteBatch.End();
+
 					break;
 
 				case Gamestates.TITLE:
 					break;
 
 				case Gamestates.GAMEPLAY:
-					//background.Draw(spriteBatch);
-					platformHelper.Draw(spriteBatch);
-					player.Draw(spriteBatch);
-					lava.Draw(spriteBatch);
-
-					foreach (Ash ash in ashes)
-					{
-						ash.Draw(spriteBatch);
-					}
-
+					DrawGameplay();
 					break;
+			}
+		}
+
+		private void DrawGameplay()
+		{
+			spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default,
+				RasterizerState.CullCounterClockwise, null, Camera.Instance.Transform);
+
+			//background.Draw(spriteBatch);
+			platformHelper.Draw(spriteBatch);
+			player.Draw(spriteBatch);
+			lava.Draw(spriteBatch);
+
+			foreach (Ash ash in ashes)
+			{
+				ash.Draw(spriteBatch);
 			}
 
 			spriteBatch.End();

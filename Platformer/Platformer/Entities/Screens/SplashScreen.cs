@@ -14,6 +14,8 @@ namespace Platformer.Entities.Screens
 		private const int FADE_DURATION = 500;
 		private const int VISIBLE_DURATION = 3000;
 		private const int GAMESTATE_DELAY = 500;
+		private const int VERTICAL_OFFSET = 250;
+		private const int LOGO_OFFSET = 25;
 
 		private enum FadeStates
 		{
@@ -22,13 +24,22 @@ namespace Platformer.Entities.Screens
 			NONE
 		}
 
+		private Text text;
 		private Sprite logoSprite;
 		private FadeStates fadeState;
 		private Timer timer;
 
 		public SplashScreen()
 		{
-			logoSprite = new Sprite(ContentLoader.LoadTexture("Logo"), Vector2.Zero);
+			SpriteFont font = ContentLoader.LoadFont("Splash");
+
+			string textValue = "Silver Sleek Studios";
+
+			Vector2 textPosition = new Vector2(Constants.SCREEN_WIDTH / 2, VERTICAL_OFFSET);
+			Vector2 spritePosition = textPosition - new Vector2(font.MeasureString(textValue).X / 2 + LOGO_OFFSET, 0);
+
+			logoSprite = new Sprite(ContentLoader.LoadTexture("Logo"), spritePosition);
+			text = new Text(font, textValue, textPosition, Color.White); 
 
 			ChangeFadeState(FadeStates.NONE, Color.Transparent, FADE_DELAY, BeginFadeIn);
 		}
@@ -54,29 +65,39 @@ namespace Platformer.Entities.Screens
 				SimpleEvent.AddEvent(EventTypes.GAMESTATE, Gamestates.TITLE); });
 		}
 
-		private void ChangeFadeState(FadeStates fadeState, Color spriteColor, int duration, Action trigger)
+		private void ChangeFadeState(FadeStates fadeState, Color color, int duration, Action trigger)
 		{
 			this.fadeState = fadeState;
 
-			logoSprite.Color = spriteColor;
+			logoSprite.Color = color;
+			text.Color = color;
 			timer = new Timer(duration, trigger, false);
 		}
 
 		public void Update(float dt)
 		{
-			if (fadeState == FadeStates.FADE_IN)
+			if (fadeState != FadeStates.NONE)
 			{
-				logoSprite.Color = Color.Lerp(Color.Transparent, Color.White, timer.Progress);
-			}
-			else if (fadeState == FadeStates.FADE_OUT)
-			{
-				logoSprite.Color = Color.Lerp(Color.White, Color.Transparent, timer.Progress);
+				Color color = Color.White;
+
+				if (fadeState == FadeStates.FADE_IN)
+				{
+					color = Color.Lerp(Color.Transparent, Color.White, timer.Progress);
+				}
+				else if (fadeState == FadeStates.FADE_OUT)
+				{
+					color = Color.Lerp(Color.White, Color.Transparent, timer.Progress);
+				}
+
+				logoSprite.Color = color;
+				text.Color = color;
 			}
 		}
 
 		public void Draw(SpriteBatch sb)
 		{
 			logoSprite.Draw(sb);
+			text.Draw(sb);
 		}
 	}
 }

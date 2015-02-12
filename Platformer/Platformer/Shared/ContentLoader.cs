@@ -16,5 +16,10 @@ namespace Platformer.Shared
 		{
 			return content.Load<Texture2D>("Textures/" + filename);
 		}
+
+		public static SpriteFont LoadFont(string filename)
+		{
+			return content.Load<SpriteFont>("Fonts/" + filename);
+		}
 	}
 }
