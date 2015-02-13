@@ -12,9 +12,9 @@ namespace Platformer.Entities.Particles
 
         private const float MIN_ANGULAR_VELOCITY = -0.75f;
         private const float MAX_ANGULAR_VELOCITY = 0.75f;
-        private const float MIN_DRIFT_CHANGE = 0.1f;
-        private const float MAX_DRIFT_CHANGE = 1;
-        private const float MAX_DRIFT_SPEED = 5;
+        private const float MIN_DRIFT_CHANGE = -3;
+        private const float MAX_DRIFT_CHANGE = 3;
+        private const float MAX_DRIFT_SPEED = 15;
 
         public Ember(Vector2 position, Vector2 velocity) :
             base(ParticleTypes.EMBER, position, velocity, MIN_ANGULAR_VELOCITY, MAX_ANGULAR_VELOCITY, MIN_LIFETIME,

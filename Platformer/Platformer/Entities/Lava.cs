@@ -35,7 +35,7 @@ namespace Platformer.Entities
         private const int MIN_EMBER_SPEED = 75;
         private const int MAX_EMBER_SPEED = 125;
         private const int EMBER_SPAWN_DEPTH = 10;
-        private const float EMBER_SPAWN_CHANCE = 0.04f;
+        private const float AVERAGE_NUM_EMBERS_PER_SECOND = 1.5f;
 
 		private GraphicsDevice graphicsDevice;
 		private BasicEffect basicEffect;
@@ -204,20 +204,20 @@ namespace Platformer.Entities
 
 			//UpdateVertices();
 
-            if ((float)random.NextDouble() <= EMBER_SPAWN_CHANCE)
-            {
-                GenerateEmber();
-            }
+            CheckGenerateEmber(dt);
 		}
 
-        private void GenerateEmber()
+        private void CheckGenerateEmber(float dt)
         {
-            Vector2 position = points[(int)Functions.GetRandomValue(0, points.Length)];
-            Vector2 velocity = new Vector2(0, -Functions.GetRandomValue(MIN_EMBER_SPEED, MAX_EMBER_SPEED));
+            if ((float)random.NextDouble() <= AVERAGE_NUM_EMBERS_PER_SECOND * dt)
+            {
+                Vector2 position = points[(int)Functions.GetRandomValue(0, points.Length)];
+                Vector2 velocity = new Vector2(0, -Functions.GetRandomValue(MIN_EMBER_SPEED, MAX_EMBER_SPEED));
 
-            position.Y += EMBER_SPAWN_DEPTH;
+                position.Y += EMBER_SPAWN_DEPTH;
 
-            ParticleFactory.CreateParticle(ParticleTypes.EMBER, position, velocity);
+                ParticleFactory.CreateParticle(ParticleTypes.EMBER, position, velocity);
+            }
         }
 
 		private void UpdateVertices()
