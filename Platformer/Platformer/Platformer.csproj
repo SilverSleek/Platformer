@@ -118,6 +118,7 @@
     <Compile Include="Entities\Hazards\Lavafall.cs" />
     <Compile Include="Entities\Hazards\RetractableSpikes.cs" />
     <Compile Include="Entities\Hazards\StationarySpikes.cs" />
+    <Compile Include="Entities\HeightDisplay.cs" />
     <Compile Include="Entities\Lava.cs" />
     <Compile Include="Entities\Particles\Ash.cs" />
     <Compile Include="Entities\Particles\AshSpawner.cs" />

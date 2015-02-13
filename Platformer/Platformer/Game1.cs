@@ -51,10 +51,12 @@ namespace Platformer
 		private EventManager eventManager;
 		private TimerManager timerManager;
 
+		private SplashScreen splashScreen;
+
 		private Player player;
 		private Lava lava;
 		private Background background;
-		private SplashScreen splashScreen;
+		private HeightDisplay heightDisplay;
 
 		private PlatformHelper platformHelper;
 		private CollisionHelper collisionHelper;
@@ -124,7 +126,8 @@ namespace Platformer
 
 		private void InitializeGameplay()
 		{
-			player = new Player();
+			heightDisplay = new HeightDisplay();
+			player = new Player(heightDisplay);
 			lava = new Lava(GraphicsDevice);
 			background = new Background();
 
@@ -202,6 +205,7 @@ namespace Platformer
 			platformHelper.Draw(spriteBatch);
 			player.Draw(spriteBatch);
 			lava.Draw(spriteBatch);
+			heightDisplay.Draw(spriteBatch);
 
 			spriteBatch.End();
 		}

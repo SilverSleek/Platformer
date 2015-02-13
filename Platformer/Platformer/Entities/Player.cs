@@ -36,15 +36,20 @@ namespace Platformer.Entities
 
 		private Platform platform;
 		private Sprite sprite;
+		private HeightDisplay heightDisplay;
 
 		private bool airborne;
 		private bool doubleJumpEnabled;
 		private bool doubleJumpActive;
+		private bool heightOffsetRecorded;
 
 		private int health;
+		private int heightOffset;
 
-		public Player()
+		public Player(HeightDisplay heightDisplay)
 		{
+			this.heightDisplay = heightDisplay;
+
 			Texture2D texture = ContentLoader.LoadTexture("Player");
 
 			int width = texture.Width;
@@ -54,6 +59,7 @@ namespace Platformer.Entities
 			halfBounds = new Vector2(width, height) / 2;
 			OldBoundingBox = new BoundingBox2D(position, width, height);
 			NewBoundingBox = new BoundingBox2D(position, width, height);
+			heightOffset = int.MinValue;
 
 			ResetValues();
 
@@ -77,6 +83,12 @@ namespace Platformer.Entities
 			if (platform.Moving)
 			{
 				platformOffset = position - platform.BoundingBox.Center;
+			}
+			
+			if (!heightOffsetRecorded)
+			{
+				heightOffset = (int)position.Y;
+				heightOffsetRecorded = true;
 			}
 
 			UpdateValues();
@@ -154,6 +166,7 @@ namespace Platformer.Entities
 			airborne = true;
 			doubleJumpEnabled = true;
 			doubleJumpActive = false;
+			heightOffsetRecorded = false;
 			health = STARTING_HEALTH;
 
 			UpdateValues();
@@ -260,6 +273,11 @@ namespace Platformer.Entities
 			CorrectVelocity(dt);
 
 			position += velocity * dt;
+
+			if (heightOffsetRecorded)
+			{
+				heightDisplay.SetValue(heightOffset - (int)position.Y);
+			}
 
 			UpdateValues();
 		}
