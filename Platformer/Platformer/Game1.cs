@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Platformer.Entities;
 using Platformer.Entities.Events;
 using Platformer.Entities.Hazards;
-using Platformer.Entities.Particles;
 using Platformer.Entities.Screens;
 using Platformer.Interfaces;
 using Platformer.Helpers;
@@ -56,10 +55,9 @@ namespace Platformer
 		private Background background;
 		private SplashScreen splashScreen;
 
-		private List<Ash> ashes;
-
 		private PlatformHelper platformHelper;
 		private CollisionHelper collisionHelper;
+        private ParticleHelper particleHelper;
 
 		private Gamestates gamestate;
 
@@ -85,7 +83,7 @@ namespace Platformer
 			eventManager = new EventManager();
 			timerManager = new TimerManager();
 
-			SwitchGamestate(Gamestates.SPLASH);
+			SwitchGamestate(Gamestates.GAMEPLAY);
 
 			base.Initialize();
 		}
@@ -129,23 +127,12 @@ namespace Platformer
 			lava = new Lava(GraphicsDevice);
 			background = new Background();
 
-			ashes = new List<Ash>();
-
-			for (int i = 0; i < 25; i++)
-			{
-				float x = Functions.GetRandomValue(0, Constants.SCREEN_WIDTH);
-				float y = Functions.GetRandomValue(0, Constants.SCREEN_HEIGHT);
-				float velocityX = Functions.GetRandomValue(-4, 4);
-				float velocityY = Functions.GetRandomValue(10, 20);
-
-				ashes.Add(new Ash(new Vector2(x, y), new Vector2(velocityX, velocityY)));
-			}
-
 			List<Platform> platforms = new List<Platform>();
 			List<Hazard> hazards = new List<Hazard>();
 
 			platformHelper = new PlatformHelper(platforms, lava);
 			collisionHelper = new CollisionHelper(player, lava, platforms, hazards);
+            particleHelper = new ParticleHelper();                 
 
 			Platform.Initialize(hazards);
 
@@ -167,25 +154,25 @@ namespace Platformer
 					break;
 
 				case Gamestates.GAMEPLAY:
-					foreach (Ash ash in ashes)
-					{
-						ash.Update(dt);
-					}
-
-					lava.Update(dt);
-					platformHelper.Update(dt);
-					player.Update(dt);
-					collisionHelper.Update();
-
-					Camera.Instance.Update();
-
+                    UpdateGameplay(dt);
 					break;
 			}
 		}
 
+        private void UpdateGameplay(float dt)
+        {
+            lava.Update(dt);
+            platformHelper.Update(dt);
+            player.Update(dt);
+            collisionHelper.Update();
+            particleHelper.Update(dt);
+
+            Camera.Instance.Update();
+        }
+
 		protected override void Draw(GameTime gameTime)
 		{
-			GraphicsDevice.Clear(Color.Black);
+			GraphicsDevice.Clear(Color.White);
 
 			switch (gamestate)
 			{
@@ -207,18 +194,13 @@ namespace Platformer
 
 		private void DrawGameplay()
 		{
-			spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default,
-				RasterizerState.CullCounterClockwise, null, Camera.Instance.Transform);
+			spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp,
+                DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, Camera.Instance.Transform);
 
 			//background.Draw(spriteBatch);
 			platformHelper.Draw(spriteBatch);
 			player.Draw(spriteBatch);
 			lava.Draw(spriteBatch);
-
-			foreach (Ash ash in ashes)
-			{
-				ash.Draw(spriteBatch);
-			}
 
 			spriteBatch.End();
 		}
