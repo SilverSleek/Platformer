@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Platformer.Entities.Hazards;
 using Platformer.Shared;
 
-namespace Platformer.Entities
+namespace Platformer.Entities.Platforms
 {
 	class Platform
 	{
@@ -19,6 +19,11 @@ namespace Platformer.Entities
 
 		private Sprite sprite;
 		private Hazard hazard;
+
+		public Platform() :
+			this(Vector2.Zero, HazardTypes.NONE)
+		{
+		}
 
 		public Platform(Vector2 position, HazardTypes hazardType)
 		{
@@ -66,6 +71,16 @@ namespace Platformer.Entities
 			{
 				hazard.Destroy();
 			}
+		}
+
+		public void SetPosition(Vector2 position)
+		{
+			sprite.Position = position;
+
+			Rectangle boundingBox = BoundingBox;
+			boundingBox.X = (int)position.X - boundingBox.Width / 2;
+			boundingBox.Y = (int)position.Y - boundingBox.Height / 2;
+			BoundingBox = boundingBox;
 		}
 
 		public void Update(float dt)

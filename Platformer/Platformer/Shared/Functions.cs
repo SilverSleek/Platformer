@@ -25,5 +25,13 @@ namespace Platformer.Shared
 
 			return (float)Math.Atan2(dY, dX);
 		}
+
+		public static Vector2 ComputePosition(float angle, float radius)
+		{
+			float x = (float)Math.Cos(angle);
+			float y = (float)Math.Sin(angle);
+
+			return new Vector2(x, y) * radius;
+		}
 	}
 }

@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Input;
 
 using Platformer.Entities.Events;
 using Platformer.Entities.Hazards;
+using Platformer.Entities.Platforms;
 using Platformer.Interfaces;
 using Platformer.Shared;
 

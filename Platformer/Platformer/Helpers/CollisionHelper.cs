@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Platformer.Entities;
 using Platformer.Entities.Events;
 using Platformer.Entities.Hazards;
+using Platformer.Entities.Platforms;
 using Platformer.Interfaces;
 using Platformer.Shared;
 
@@ -34,8 +35,6 @@ namespace Platformer.Helpers
 		public void EventResponse(SimpleEvent simpleEvent)
 		{
 			hazards.Clear();
-			platforms.Clear();
-			platforms.Add(new Platform(new Vector2(400, 400), HazardTypes.NONE));
 		}
 
 		public void Update()

@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Platformer.Entities;
 using Platformer.Entities.Events;
 using Platformer.Entities.Hazards;
+using Platformer.Entities.Platforms;
 using Platformer.Entities.Screens;
 using Platformer.Interfaces;
 using Platformer.Helpers;

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using Platformer.Entities.Platforms;
 using Platformer.Shared;
 
 namespace Platformer.Entities.Hazards
