@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
-using System;
-
 using Microsoft.Xna.Framework.Graphics;
 
 using Platformer.Entities.Events;
+using Platformer.Entities.Particles;
 using Platformer.Interfaces;
+using Platformer.Factories;
 using Platformer.Shared;
 
 namespace Platformer.Entities
@@ -31,9 +32,15 @@ namespace Platformer.Entities
 		private const int ORANGE_HEIGHT = 100;
 		private const int RED_HEIGHT = 525;
 
+        private const int MIN_EMBER_SPEED = 75;
+        private const int MAX_EMBER_SPEED = 125;
+        private const int EMBER_SPAWN_DEPTH = 10;
+        private const float EMBER_SPAWN_CHANCE = 0.04f;
+
 		private GraphicsDevice graphicsDevice;
 		private BasicEffect basicEffect;
 		private Texture2D whitePixel;
+        private Random random;
 
 		private Vector2[] points;
 		private SineWave[] sineWaves;
@@ -52,7 +59,8 @@ namespace Platformer.Entities
 
 			whitePixel = ContentLoader.LoadTexture("WhitePixel");
 			totalAscension = -Constants.SCREEN_HEIGHT;
-			increment = (float)Constants.SCREEN_WIDTH / NUM_SEGMENTS;
+            increment = (float)Constants.SCREEN_WIDTH / NUM_SEGMENTS;
+            random = new Random();
 
 			basicEffect = new BasicEffect(graphicsDevice);
 			basicEffect.Projection = Matrix.CreateOrthographicOffCenter(0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, 0, 0, 1);
@@ -194,8 +202,23 @@ namespace Platformer.Entities
 				points[i].Y = y;
 			}
 
-			UpdateVertices();
+			//UpdateVertices();
+
+            if ((float)random.NextDouble() <= EMBER_SPAWN_CHANCE)
+            {
+                GenerateEmber();
+            }
 		}
+
+        private void GenerateEmber()
+        {
+            Vector2 position = points[(int)Functions.GetRandomValue(0, points.Length)];
+            Vector2 velocity = new Vector2(0, -Functions.GetRandomValue(MIN_EMBER_SPEED, MAX_EMBER_SPEED));
+
+            position.Y += EMBER_SPAWN_DEPTH;
+
+            ParticleFactory.CreateParticle(ParticleTypes.EMBER, position, velocity);
+        }
 
 		private void UpdateVertices()
 		{

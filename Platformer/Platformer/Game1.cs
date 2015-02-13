@@ -7,9 +7,11 @@ using Microsoft.Xna.Framework.Graphics;
 using Platformer.Entities;
 using Platformer.Entities.Events;
 using Platformer.Entities.Hazards;
+using Platformer.Entities.Particles;
 using Platformer.Entities.Platforms;
 using Platformer.Entities.Screens;
 using Platformer.Interfaces;
+using Platformer.Factories;
 using Platformer.Helpers;
 using Platformer.Managers;
 using Platformer.Shared;
@@ -133,12 +135,14 @@ namespace Platformer
 
 			List<Platform> platforms = new List<Platform>();
 			List<Hazard> hazards = new List<Hazard>();
+            List<Particle> particles = new List<Particle>();
 
 			platformHelper = new PlatformHelper(platforms, lava);
 			collisionHelper = new CollisionHelper(player, lava, platforms, hazards);
-            particleHelper = new ParticleHelper();                 
+            particleHelper = new ParticleHelper(particles);                 
 
 			Platform.Initialize(hazards);
+            ParticleFactory.Initialize(particles);
 
 			SimpleEvent.AddEvent(EventTypes.RESET, null);
 		}
@@ -202,7 +206,8 @@ namespace Platformer
                 DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, Camera.Instance.Transform);
 
 			//background.Draw(spriteBatch);
-			platformHelper.Draw(spriteBatch);
+            platformHelper.Draw(spriteBatch);
+            particleHelper.Draw(spriteBatch);
 			player.Draw(spriteBatch);
 			lava.Draw(spriteBatch);
 			heightDisplay.Draw(spriteBatch);

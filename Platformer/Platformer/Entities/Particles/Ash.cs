@@ -15,6 +15,8 @@ namespace Platformer.Entities.Particles
 		private const int MAX_SCALE_DELAY = 1250;
 		private const int MIN_SCALE_DURATION = 600;
 		private const int MAX_SCALE_DURATION = 800;
+        private const int MIN_LIFETIME = 5000;
+        private const int MAX_LIFETIME = 7500;
 
 		private enum ScaleStates
 		{
@@ -23,28 +25,13 @@ namespace Platformer.Entities.Particles
 			NONE
 		}
 
-		private static Rectangle sourceRect;
-		private static Vector2 origin;
-
-		static Ash()
-		{
-			sourceRect = new Rectangle(0, 0, 12, 8);
-			origin = new Vector2(sourceRect.Width, sourceRect.Height) / 2;
-		}
-
-		private float rotation;
-		private float angularVelocity;
-
 		private Timer timer;
-		private Vector2 scale;
 		private ScaleStates scaleState;
 
 		public Ash(Vector2 position, Vector2 velocity) :
-			base(position, velocity)
+			base(ParticleTypes.ASH, position, velocity, MIN_ANGULAR_VELOCITY, MAX_ANGULAR_VELOCITY, MIN_LIFETIME,
+            MAX_LIFETIME)
 		{
-			angularVelocity = Functions.GetRandomValue(MIN_ANGULAR_VELOCITY, MAX_ANGULAR_VELOCITY);
-			scale = Vector2.One;
-
 			ChangeScaleState(1, ScaleStates.NONE, MIN_SCALE_DELAY, MAX_SCALE_DELAY, BeginShrink);
 		}
 
@@ -69,7 +56,10 @@ namespace Platformer.Entities.Particles
 
 			int delay = (int)Functions.GetRandomValue(minDuration, maxDuration);
 
-			scale.X = scaleValue;
+            Vector2 scale = Scale;
+            scale.X = scaleValue;
+			Scale = scale;
+
 			timer = new Timer(delay, trigger, false);
 		}
 
@@ -82,7 +72,7 @@ namespace Platformer.Entities.Particles
 
 		public override void Update(float dt)
 		{
-			rotation += angularVelocity * dt;
+            Vector2 scale = Scale;
 
 			if (scaleState == ScaleStates.SHRINK)
 			{
@@ -93,12 +83,9 @@ namespace Platformer.Entities.Particles
 				scale.X = MathHelper.Lerp(0, 1, timer.Progress);
 			}
 
-			base.Update(dt);
-		}
+            Scale = scale;
 
-		public override void Draw(SpriteBatch sb)
-		{
-			sb.Draw(Spritesheet, Position, sourceRect, Color.White, rotation, origin, scale, SpriteEffects.None, 0);
+			base.Update(dt);
 		}
 	}
 }

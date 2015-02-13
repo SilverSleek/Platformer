@@ -11,9 +11,10 @@ namespace Platformer.Helpers
         private List<Particle> particles;
         private AshSpawner ashSpawner;
 
-        public ParticleHelper()
+        public ParticleHelper(List<Particle> particles)
         {
-            particles = new List<Particle>();
+            this.particles = particles;
+
             ashSpawner = new AshSpawner(particles);
         }
 

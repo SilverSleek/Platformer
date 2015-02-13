@@ -122,6 +122,7 @@
     <Compile Include="Entities\Lava.cs" />
     <Compile Include="Entities\Particles\Ash.cs" />
     <Compile Include="Entities\Particles\AshSpawner.cs" />
+    <Compile Include="Entities\Particles\Ember.cs" />
     <Compile Include="Entities\Particles\Particle.cs" />
     <Compile Include="Entities\Platforms\CircularSetPiece.cs" />
     <Compile Include="Entities\Platforms\LinearSetPiece.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="Entities\Sprite.cs" />
     <Compile Include="Entities\Text.cs" />
     <Compile Include="Entities\Timer.cs" />
+    <Compile Include="Factories\ParticleFactory.cs" />
     <Compile Include="Helpers\CollisionHelper.cs" />
     <Compile Include="Helpers\ParticleHelper.cs" />
     <Compile Include="Helpers\PlatformHelper.cs" />
