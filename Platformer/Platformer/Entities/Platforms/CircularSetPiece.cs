@@ -27,9 +27,11 @@ namespace Platformer.Entities.Platforms
 			radius = RADIUS_INCREMENT * numPlatforms;
 			angleIncrement = MathHelper.TwoPi / numPlatforms;
 			angularVelocity = (float)PLATFORM_SPEED / radius;
+
+			InitializePlatforms();
 		}
 
-		protected override void InitializePlatforms(int numPlatforms)
+		protected override void InitializePlatforms()
 		{
 			SetPlatformPositions();
 		}
@@ -43,13 +45,14 @@ namespace Platformer.Entities.Platforms
 			base.Update(dt);
 		}
 
-		private void SetPlatformPositions()
+		protected void SetPlatformPositions()
 		{
+			// using the original number of platforms preserves spacing of platforms around the circle even if one is destroyed
 			for (int i = 0; i < OriginalNumPlatforms; i++)
 			{
 				if (!Platforms[i].Destroyed)
 				{
-					Platforms[i].SetPosition(center + Functions.ComputePosition(baseAngle + angleIncrement * i, radius));
+					Platforms[i].SetCenter(center + Functions.ComputePosition(baseAngle + angleIncrement * i, radius));
 				}
 			}
 		}

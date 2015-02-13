@@ -43,7 +43,7 @@ namespace Platformer.Helpers
 			platforms.Clear();
 			setPieces.Clear();
 
-			platforms.Add(new Platform(new Vector2(400, 400), HazardTypes.NONE));
+			platforms.Add(new Platform(new Vector2(400, 400), HazardTypes.NONE, false));
 		}
 
 		public void Update(float dt)
@@ -66,18 +66,25 @@ namespace Platformer.Helpers
 			{
 				Platform platform = platforms[i];
 
-				BoundingBox2D boundingBox = platform.BoundingBox;
-				Vector2 bottomLeft = new Vector2(boundingBox.Left, boundingBox.Bottom);                                                    
-				Vector2 bottomRight = new Vector2(boundingBox.Right, boundingBox.Bottom);
-
-				if (lava.CheckSubmerged(bottomLeft) || lava.CheckSubmerged(bottomRight))
+				if (platform.Destroyed)
 				{
-					platform.Destroy();
 					platforms.RemoveAt(i);
 				}
 				else
 				{
-					platform.Update(dt);
+					BoundingBox2D boundingBox = platform.BoundingBox;
+					Vector2 bottomLeft = new Vector2(boundingBox.Left, boundingBox.Bottom);
+					Vector2 bottomRight = new Vector2(boundingBox.Right, boundingBox.Bottom);
+
+					if (lava.CheckSubmerged(bottomLeft) || lava.CheckSubmerged(bottomRight))
+					{
+						platform.Destroy();
+						platforms.RemoveAt(i);
+					}
+					else
+					{
+						platform.Update(dt);
+					}
 				}
 			}
 
@@ -88,7 +95,8 @@ namespace Platformer.Helpers
 		{
 			if (setPieces.Count == 0)
 			{
-				setPieces.Add(new CircularSetPiece(new Vector2(Constants.SCREEN_WIDTH / 2, 400), 4));
+				setPieces.Add(new LinearSetPiece(200, 5, MovementDirections.LEFT));
+				setPieces.Add(new CircularSetPiece(new Vector2(Constants.SCREEN_WIDTH / 2, -100), 4)); 
 			}
 
 			/*

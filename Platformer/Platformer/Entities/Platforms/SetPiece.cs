@@ -7,38 +7,36 @@ namespace Platformer.Entities.Platforms
 {
 	abstract class SetPiece
 	{
-		protected static List<Platform> platformMasterList;
-
 		public static void Initialize(List<Platform> platforms)
 		{
-			platformMasterList = platforms;
+			PlatformMasterList = platforms;
 		}
+
+		protected static List<Platform> PlatformMasterList { get; private set; }
 
 		protected SetPiece(int numPlatforms)
 		{
-			Platforms = new Platform[numPlatforms];
+			Platforms = new List<Platform>(numPlatforms);
 
 			for (int i = 0; i < numPlatforms; i++)
 			{
-				Platforms[i] = new Platform();
+				Platforms.Add(new Platform());
 			}
 
-			InitializePlatforms(numPlatforms);
-
 			OriginalNumPlatforms = numPlatforms;
-			platformMasterList.AddRange(Platforms);
+			PlatformMasterList.AddRange(Platforms);
 		}
 
-		protected Platform[] Platforms { get; set; }
+		protected List<Platform> Platforms { get; set; }
 		protected int OriginalNumPlatforms { get; private set; }
 
 		public bool Destroyed { get; private set; }
 
-		protected abstract void InitializePlatforms(int numPlatforms);
+		protected abstract void InitializePlatforms();
 
 		public virtual void Update(float dt)
 		{
-			if (Platforms.Length == 0)
+			if (Platforms.Count == 0)
 			{
 				Destroyed = true;
 			}

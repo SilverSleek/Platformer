@@ -154,6 +154,12 @@ namespace Platformer.Entities
 		{
 			int index = (int)(point.X / increment);
 
+			// this can happen with linear set pieces
+			if (index < 0 || index > points.Length - 2)
+			{
+				return false;
+			}
+
 			Vector2 a = points[index];
 			Vector2 b = points[index + 1];
 
@@ -170,7 +176,7 @@ namespace Platformer.Entities
 
 		public void Update(float dt)
 		{
-			//totalAscension += ASCENSION_SPEED * dt;
+			totalAscension += ASCENSION_SPEED * dt;
 			totalMilliseconds += dt * 1000;
 
 			for (int i = 0; i < points.Length; i++)

@@ -123,6 +123,7 @@
     <Compile Include="Entities\Particles\AshSpawner.cs" />
     <Compile Include="Entities\Particles\Particle.cs" />
     <Compile Include="Entities\Platforms\CircularSetPiece.cs" />
+    <Compile Include="Entities\Platforms\LinearSetPiece.cs" />
     <Compile Include="Entities\Platforms\Platform.cs" />
     <Compile Include="Entities\Platforms\SetPiece.cs" />
     <Compile Include="Entities\Player.cs" />

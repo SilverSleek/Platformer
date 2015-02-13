@@ -76,7 +76,7 @@ namespace Platformer.Entities
 
 			if (platform.Moving)
 			{
-				platformOffset = position - platform.Center;
+				platformOffset = position - platform.BoundingBox.Center;
 			}
 
 			UpdateValues();
@@ -253,7 +253,7 @@ namespace Platformer.Entities
 				else if (platform.Moving)
 				{
 					//platformOffset += velocity * dt;
-					position = platform.Center + platformOffset;
+					position = platform.BoundingBox.Center + platformOffset;
 				}
 			}
 

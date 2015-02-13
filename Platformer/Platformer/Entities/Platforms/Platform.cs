@@ -20,19 +20,19 @@ namespace Platformer.Entities.Platforms
 		private Sprite sprite;
 		private Hazard hazard;
 
-		// this constructor is called from set pieces, so the platform is assumed to be moving
+		// this constructor is called from circular set pieces, so the platform is assumed to be moving
 		public Platform() :
-			this(Vector2.Zero, HazardTypes.NONE)
+			this(Vector2.Zero, HazardTypes.NONE, true)
 		{
-			Moving = true;
 		}
 
-		public Platform(Vector2 position, HazardTypes hazardType)
+		public Platform(Vector2 position, HazardTypes hazardType, bool moving)
 		{
 			Texture2D texture = ContentLoader.LoadTexture("Platform");
 
 			sprite = new Sprite(texture, position);
 			BoundingBox = new BoundingBox2D(position, texture.Width, texture.Height);
+			Moving = moving;
 
 			if (hazardType != HazardTypes.NONE)
 			{
@@ -40,7 +40,6 @@ namespace Platformer.Entities.Platforms
 			}
 		}
 
-		public Vector2 Center { get; private set; }
 		public BoundingBox2D BoundingBox { get; private set; }
 
 		public bool Moving { get; private set; }
@@ -76,11 +75,10 @@ namespace Platformer.Entities.Platforms
 			}
 		}
 
-		public void SetPosition(Vector2 position)
+		public void SetCenter(Vector2 center)
 		{
-			Center = position;
-			sprite.Position = position;
-			BoundingBox.SetCenter(position);
+			sprite.Position = center;
+			BoundingBox.SetCenter(center);
 		}
 
 		public void Update(float dt)
