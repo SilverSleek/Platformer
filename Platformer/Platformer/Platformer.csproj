@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Background.cs" />
+    <Compile Include="Entities\BoundingBox2D.cs" />
     <Compile Include="Entities\Camera.cs" />
     <Compile Include="Entities\Events\KeyboardEventData.cs" />
     <Compile Include="Entities\Events\ListenerEventData.cs" />

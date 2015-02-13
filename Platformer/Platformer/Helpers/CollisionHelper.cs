@@ -39,14 +39,14 @@ namespace Platformer.Helpers
 
 		public void Update()
 		{
-			Rectangle playerBox = player.NewBoundingBox;
+			BoundingBox2D playerBox = player.NewBoundingBox;
 
 			CheckLava(playerBox);
 			CheckPlatforms(playerBox);
 			CheckHazards(playerBox);
 		}
 
-		private void CheckLava(Rectangle playerBox)
+		private void CheckLava(BoundingBox2D playerBox)
 		{
 			Vector2 bottomLeft = new Vector2(playerBox.Left, playerBox.Bottom);
 			Vector2 bottomRight = new Vector2(playerBox.Right, playerBox.Bottom);
@@ -65,41 +65,35 @@ namespace Platformer.Helpers
 			}
 		}
 
-		private void CheckPlatforms(Rectangle playerBox)
+		private void CheckPlatforms(BoundingBox2D playerBox)
 		{
 			foreach (Platform platform in platforms)
 			{
-				Rectangle platformBox = platform.BoundingBox;
-				Rectangle intersection = Rectangle.Intersect(playerBox, platformBox);
+				BoundingBox2D platformBox = platform.BoundingBox;
 
-				if (intersection != Rectangle.Empty)
+				if (playerBox.Intersects(platformBox))
 				{
-					if (intersection.Width == playerBox.Width && player.OldBoundingBox.Bottom <= platformBox.Top)
-					{
-						player.RegisterPlatformCollision(platform, CollisionDirections.DOWN, platformBox.Top);
-					}
+					player.RegisterPlatformCollision(platform);
 				}
 			}
 		}
 
-		private void CheckHazards(Rectangle playerBox)
+		private void CheckHazards(BoundingBox2D playerBox)
 		{
 			foreach (Hazard hazard in hazards)
 			{
-				Rectangle hazardBox = hazard.BoundingBox;
+				BoundingBox2D hazardBox = hazard.BoundingBox;
 
 				if (hazard == lastHazard)
 				{
-					if (!lastHazard.Active || Rectangle.Intersect(playerBox, hazardBox) == Rectangle.Empty)
+					if (!lastHazard.Active || !playerBox.Intersects(hazardBox))
 					{
 						lastHazard = null;
 					}
 				}
 				else if (hazard.Active)
 				{
-					Rectangle intersection = Rectangle.Intersect(playerBox, hazardBox);
-
-					if (intersection != Rectangle.Empty)
+					if (playerBox.Intersects(hazardBox))
 					{
 						lastHazard = hazard;
 						player.RegisterDamage(GetCollisionDirection(playerBox, hazardBox, hazard.Type));
@@ -108,7 +102,7 @@ namespace Platformer.Helpers
 			}
 		}
 
-		private CollisionDirections GetCollisionDirection(Rectangle playerBox, Rectangle hazardBox, HazardTypes hazardType)
+		private CollisionDirections GetCollisionDirection(BoundingBox2D playerBox, BoundingBox2D hazardBox, HazardTypes hazardType)
 		{
 			switch (hazardType)
 			{

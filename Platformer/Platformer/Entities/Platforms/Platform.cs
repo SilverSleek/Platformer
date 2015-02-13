@@ -20,9 +20,11 @@ namespace Platformer.Entities.Platforms
 		private Sprite sprite;
 		private Hazard hazard;
 
+		// this constructor is called from set pieces, so the platform is assumed to be moving
 		public Platform() :
 			this(Vector2.Zero, HazardTypes.NONE)
 		{
+			Moving = true;
 		}
 
 		public Platform(Vector2 position, HazardTypes hazardType)
@@ -30,8 +32,7 @@ namespace Platformer.Entities.Platforms
 			Texture2D texture = ContentLoader.LoadTexture("Platform");
 
 			sprite = new Sprite(texture, position);
-			BoundingBox = new Rectangle((int)position.X - texture.Width / 2, (int)position.Y - texture.Height / 2, texture.Width,
-				texture.Height);
+			BoundingBox = new BoundingBox2D(position, texture.Width, texture.Height);
 
 			if (hazardType != HazardTypes.NONE)
 			{
@@ -39,8 +40,10 @@ namespace Platformer.Entities.Platforms
 			}
 		}
 
-		public Rectangle BoundingBox { get; private set; }
+		public Vector2 Center { get; private set; }
+		public BoundingBox2D BoundingBox { get; private set; }
 
+		public bool Moving { get; private set; }
 		public bool Destroyed { get; set; }
 
 		private void CreateHazard(HazardTypes hazardType)
@@ -75,12 +78,9 @@ namespace Platformer.Entities.Platforms
 
 		public void SetPosition(Vector2 position)
 		{
+			Center = position;
 			sprite.Position = position;
-
-			Rectangle boundingBox = BoundingBox;
-			boundingBox.X = (int)position.X - boundingBox.Width / 2;
-			boundingBox.Y = (int)position.Y - boundingBox.Height / 2;
-			BoundingBox = boundingBox;
+			BoundingBox.SetCenter(position);
 		}
 
 		public void Update(float dt)

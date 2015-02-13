@@ -66,8 +66,8 @@ namespace Platformer.Helpers
 			{
 				Platform platform = platforms[i];
 
-				Rectangle boundingBox = platform.BoundingBox;
-				Vector2 bottomLeft = new Vector2(boundingBox.Left, boundingBox.Bottom);
+				BoundingBox2D boundingBox = platform.BoundingBox;
+				Vector2 bottomLeft = new Vector2(boundingBox.Left, boundingBox.Bottom);                                                    
 				Vector2 bottomRight = new Vector2(boundingBox.Right, boundingBox.Bottom);
 
 				if (lava.CheckSubmerged(bottomLeft) || lava.CheckSubmerged(bottomRight))

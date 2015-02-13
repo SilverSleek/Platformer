@@ -23,12 +23,12 @@ namespace Platformer.Entities.Hazards
 		public StationarySpikes(Platform platform) :
 			base(HazardTypes.STATIONARY_SPIKES)
 		{
-			Rectangle platformBox = platform.BoundingBox;
+			//Rectangle platformBox = platform.BoundingBox;
 
-			position = new Vector2(platformBox.Left, platformBox.Bottom);
-			numSpikes = platformBox.Width / textureWidth;
-			BoundingBox = new Rectangle((int)position.X, (int)position.Y, numSpikes * textureWidth, texture.Height);
-			Active = true;
+			//position = new Vector2(platformBox.Left, platformBox.Bottom);
+			//numSpikes = platformBox.Width / textureWidth;
+			//BoundingBox = new Rectangle((int)position.X, (int)position.Y, numSpikes * textureWidth, texture.Height);
+			//Active = true;
 		}
 
 		public override void Draw(SpriteBatch sb)

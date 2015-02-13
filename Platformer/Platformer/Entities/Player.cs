@@ -32,6 +32,7 @@ namespace Platformer.Entities
 		private Vector2 halfBounds;
 		private Vector2 groundTestingPointLeft;
 		private Vector2 groundTestingPointRight;
+		private Vector2 platformOffset;
 
 		private Platform platform;
 		private Sprite sprite;
@@ -46,9 +47,13 @@ namespace Platformer.Entities
 		{
 			Texture2D texture = ContentLoader.LoadTexture("Player");
 
+			int width = texture.Width;
+			int height = texture.Height;
+
 			sprite = new Sprite(texture, position);
-			halfBounds = new Vector2(texture.Width, texture.Height) / 2;
-			NewBoundingBox = new Rectangle(0, 0, texture.Width, texture.Height);
+			halfBounds = new Vector2(width, height) / 2;
+			OldBoundingBox = new BoundingBox2D(position, width, height);
+			NewBoundingBox = new BoundingBox2D(position, width, height);
 
 			ResetValues();
 
@@ -56,29 +61,22 @@ namespace Platformer.Entities
 			SimpleEvent.AddEvent(EventTypes.LISTENER, new ListenerEventData(EventTypes.RESET, this));
 		}
 
-		public Rectangle OldBoundingBox { get; private set; }
-		public Rectangle NewBoundingBox { get; private set; }
+		public BoundingBox2D OldBoundingBox { get; private set; }
+		public BoundingBox2D NewBoundingBox { get; private set; }
 
-		public void RegisterPlatformCollision(Platform platform, CollisionDirections direction, float value)
+		public void RegisterPlatformCollision(Platform platform)
 		{
 			this.platform = platform;
 
-			switch (direction)
+			position.Y = platform.BoundingBox.Top - halfBounds.Y;
+			velocity.Y = 0;
+			airborne = false;
+			doubleJumpEnabled = true;
+			doubleJumpActive = false;
+
+			if (platform.Moving)
 			{
-				case CollisionDirections.DOWN:
-					position.Y = value - halfBounds.Y;
-					velocity.Y = 0;
-					airborne = false;
-					doubleJumpEnabled = true;
-					doubleJumpActive = false;
-
-					break;
-
-				case CollisionDirections.LEFT:
-					break;
-
-				case CollisionDirections.RIGHT:
-					break;
+				platformOffset = position - platform.Center;
 			}
 
 			UpdateValues();
@@ -245,13 +243,21 @@ namespace Platformer.Entities
 			{
 				velocity.Y += Constants.GRAVITY * dt;
 			}
-			else if (platform != null && (platform.Destroyed || OffPlatform()))
+			else if (platform != null)
 			{
-				airborne = true;
-				platform = null;
+				if (platform.Destroyed || OffPlatform())
+				{
+					airborne = true;
+					platform = null;
+				}
+				else if (platform.Moving)
+				{
+					//platformOffset += velocity * dt;
+					position = platform.Center + platformOffset;
+				}
 			}
 
-			UpdateVelocity(dt);
+			CorrectVelocity(dt);
 
 			position += velocity * dt;
 
@@ -260,19 +266,18 @@ namespace Platformer.Entities
 
 		private bool OffPlatform()
 		{
-			return !platform.BoundingBox.Contains((int)groundTestingPointLeft.X, (int)groundTestingPointLeft.Y) &&
-				!platform.BoundingBox.Contains((int)groundTestingPointRight.X, (int)groundTestingPointRight.Y);
+			BoundingBox2D platformBox = platform.BoundingBox;
+
+			return !platformBox.Contains(groundTestingPointLeft) && !platformBox.Contains(groundTestingPointRight);
 		}
 
 		private void UpdateValues()
 		{
 			sprite.Position = position;
-			OldBoundingBox = NewBoundingBox;
+			OldBoundingBox.SetCenter(NewBoundingBox.Center);
 
-			Rectangle newBoundingBox = NewBoundingBox;
-			newBoundingBox.X = (int)(position.X - halfBounds.X);
-			newBoundingBox.Y = (int)(position.Y - halfBounds.Y);
-			NewBoundingBox = newBoundingBox;
+			BoundingBox2D newBoundingBox = NewBoundingBox;
+			newBoundingBox.SetCenter(position);
 
 			groundTestingPointLeft = new Vector2(newBoundingBox.Left, newBoundingBox.Bottom + GROUND_TESTING_OFFSET);
 			groundTestingPointRight = new Vector2(newBoundingBox.Right, newBoundingBox.Bottom + GROUND_TESTING_OFFSET);
@@ -282,7 +287,7 @@ namespace Platformer.Entities
 			Camera.Instance.Position = cameraPosition;
 		}
 
-		private void UpdateVelocity(float dt)
+		private void CorrectVelocity(float dt)
 		{
 			if (velocity.X > MAX_SPEED)
 			{

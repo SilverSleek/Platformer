@@ -3,6 +3,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using Platformer.Entities;
+
 namespace Platformer.Shared
 {
 	class DrawingFunctions
@@ -29,12 +31,12 @@ namespace Platformer.Shared
 			sb.Draw(whitePixel, start, sourceRect, color, rotation, Vector2.Zero, 1, SpriteEffects.None, 0);
 		}
 
-		public static void DrawRectangle(SpriteBatch sb, Rectangle rectangle, Color color)
+		public static void DrawBoundingBox(SpriteBatch sb, BoundingBox2D boundingBox, Color color)
 		{
-			int x = rectangle.X;
-			int y = rectangle.Y;
-			int width = rectangle.Width;
-			int height = rectangle.Height;
+			int width = (int)boundingBox.Width;
+			int height = (int)boundingBox.Height;
+			int x = (int)boundingBox.Center.X - width / 2;
+			int y = (int)boundingBox.Center.Y - height / 2;
 
 			Rectangle destinationRectLeft = new Rectangle(x, y, 1, height);
 			Rectangle destinationRectRight = new Rectangle(x + width, y, 1, height);
@@ -47,9 +49,14 @@ namespace Platformer.Shared
 			sb.Draw(whitePixel, destinationRectBottom, color);
 		}
 
-		public static void FillRectangle(SpriteBatch sb, Rectangle rectangle, Color color)
+		public static void FillBoundingBox(SpriteBatch sb, BoundingBox2D boundingBox, Color color)
 		{
-			sb.Draw(whitePixel, rectangle, color);
+			int width = (int)boundingBox.Width;
+			int height = (int)boundingBox.Height;
+			int x = (int)boundingBox.Center.X - width / 2;
+			int y = (int)boundingBox.Center.Y - height / 2;
+
+			sb.Draw(whitePixel, new Rectangle(x, y, width, height), color);
 		}
 	}
 }

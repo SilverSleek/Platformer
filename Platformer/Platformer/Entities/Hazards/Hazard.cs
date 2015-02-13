@@ -18,7 +18,7 @@ namespace Platformer.Entities.Hazards
 			Type = type;
 		}
 
-		public Rectangle BoundingBox { get; protected set; }
+		public BoundingBox2D BoundingBox { get; protected set; }
 		public HazardTypes Type { get; private set; }
 		
 		public bool Active { get; protected set; }
