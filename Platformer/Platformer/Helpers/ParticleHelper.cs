@@ -34,7 +34,7 @@ namespace Platformer.Helpers
                 }
             }
 
-            ashSpawner.Update();
+            ashSpawner.Update(dt);
         }
 
         public void Draw(SpriteBatch sb)

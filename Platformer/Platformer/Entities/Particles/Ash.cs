@@ -15,8 +15,8 @@ namespace Platformer.Entities.Particles
 		private const int MAX_SCALE_DELAY = 1250;
 		private const int MIN_SCALE_DURATION = 600;
 		private const int MAX_SCALE_DURATION = 800;
-        private const int MIN_LIFETIME = 5000;
-        private const int MAX_LIFETIME = 7500;
+        private const int MIN_LIFETIME = 10000;
+        private const int MAX_LIFETIME = 15000;
 
 		private enum ScaleStates
 		{
