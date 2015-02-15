@@ -33,7 +33,7 @@ namespace Platformer.Entities.Hazards
 
 		public override void Draw(SpriteBatch sb)
 		{
-			DrawingFunctions.FillBoundingBox(sb, BoundingBox, Color.Red);
+			//DrawingFunctions.FillBoundingBox(sb, BoundingBox, Color.Red);
 		}
 	}
 }

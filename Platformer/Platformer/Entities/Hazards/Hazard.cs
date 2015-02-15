@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Platformer.Entities.Hazards
@@ -13,6 +15,13 @@ namespace Platformer.Entities.Hazards
 
 	abstract class Hazard
 	{
+		static Hazard()
+		{
+			NumHazardTypes = Enum.GetNames(typeof(HazardTypes)).Length;
+		}
+
+		public static int NumHazardTypes { get; private set; }
+
 		protected Hazard(HazardTypes type)
 		{
 			Type = type;

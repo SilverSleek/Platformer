@@ -6,6 +6,11 @@ namespace Platformer.Entities
 {
 	class BoundingBox2D
 	{
+		public BoundingBox2D(BoundingBox2D other) :
+			this(other.Center, other.Width, other.Height)
+		{
+		}
+
 		public BoundingBox2D(Vector2 center, float width, float height)
 		{
 			Width = width;

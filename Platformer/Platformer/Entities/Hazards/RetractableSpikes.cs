@@ -46,17 +46,17 @@ namespace Platformer.Entities.Hazards
 		public RetractableSpikes(Platform platform) :
 			base(HazardTypes.RETRACTABLE_SPIKES)
 		{
-			//Rectangle platformBox = platform.BoundingBox;
+			BoundingBox2D platformBox = platform.BoundingBox;
 
-			//numSpikes = platformBox.Width / textureWidth;
-			//platformTop = platformBox.Top;
-			//partialExtensionTarget = platformTop - PARTIAL_EXTENSION_LENGTH;
-			//fullExtensionTarget = platformTop - texture.Height;
+			numSpikes = (int)platformBox.Width / textureWidth;
+			platformTop = (int)platformBox.Top;
+			partialExtensionTarget = platformTop - PARTIAL_EXTENSION_LENGTH;
+			fullExtensionTarget = platformTop - texture.Height;
 
-			//position = new Vector2(platformBox.Left, platformTop);
-			//BoundingBox = new Rectangle(platformBox.X, platformTop - texture.Height, numSpikes * textureWidth, texture.Height);
-			//stateTimer = new Timer(RETRACTED_DURATION, PartiallyExtend, false);
-			//extensionState = ExtensionStates.NONE;
+			position = new Vector2(platformBox.Left, platformTop);
+			BoundingBox = new BoundingBox2D(platformBox);
+			stateTimer = new Timer(RETRACTED_DURATION, PartiallyExtend, false);
+			extensionState = ExtensionStates.NONE;
 		}
 
 		private void PartiallyExtend()

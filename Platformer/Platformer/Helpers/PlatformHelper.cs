@@ -21,6 +21,7 @@ namespace Platformer.Helpers
 		private const int GENERATION_EDGE_OFFSET = 75;
 
 		private Lava lava;
+		private Random random;
 
 		private List<Platform> platforms;
 		private List<SetPiece> setPieces;
@@ -31,6 +32,7 @@ namespace Platformer.Helpers
 			this.lava = lava;
 
 			setPieces = new List<SetPiece>();
+			random = new Random();
 
 			SetPiece.Initialize(platforms);
 
@@ -99,7 +101,9 @@ namespace Platformer.Helpers
 				float x = Functions.GetRandomValue(GENERATION_EDGE_OFFSET, Constants.SCREEN_WIDTH - GENERATION_EDGE_OFFSET + 1);
 				float y = topY - Functions.GetRandomValue(MIN_VERTICAL_SPACING, MAX_VERTICAL_SPACING) - GENERATION_VERTICAL_OFFSET;
 
-				platforms.Add(new Platform(new Vector2(x, y), HazardTypes.NONE, false));
+				HazardTypes hazardType = (HazardTypes)random.Next(0, Hazard.NumHazardTypes);
+
+				platforms.Add(new Platform(new Vector2(x, y), hazardType, false));
 			}
 		}
 
