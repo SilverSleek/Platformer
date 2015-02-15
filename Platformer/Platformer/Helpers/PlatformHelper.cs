@@ -15,12 +15,12 @@ namespace Platformer.Helpers
 {
 	class PlatformHelper : IEventListener
 	{
-		private const int VERTICAL_SPACING = 150;
-		private const int OFFSCREEN_DISTANCE = 100;
-		private const int GENERATION_EDGE_OFFSET = 100;
+		private const int MIN_VERTICAL_SPACING = 75;
+		private const int MAX_VERTICAL_SPACING = 175;
+		private const int GENERATION_VERTICAL_OFFSET = 20;
+		private const int GENERATION_EDGE_OFFSET = 75;
 
 		private Lava lava;
-		private Random random;
 
 		private List<Platform> platforms;
 		private List<SetPiece> setPieces;
@@ -31,7 +31,6 @@ namespace Platformer.Helpers
 			this.lava = lava;
 
 			setPieces = new List<SetPiece>();
-			random = new Random();
 
 			SetPiece.Initialize(platforms);
 
@@ -93,23 +92,15 @@ namespace Platformer.Helpers
 
 		private void GeneratePlatforms()
 		{
-			if (setPieces.Count == 0)
+			float topY = platforms[platforms.Count - 1].BoundingBox.Center.Y;
+
+			if (topY > Camera.Instance.VisibleArea.Top + MIN_VERTICAL_SPACING)
 			{
-				setPieces.Add(new LinearSetPiece(200, 5, MovementDirections.RIGHT));
-				setPieces.Add(new CircularSetPiece(new Vector2(Constants.SCREEN_WIDTH / 2, -100), 4)); 
+				float x = Functions.GetRandomValue(GENERATION_EDGE_OFFSET, Constants.SCREEN_WIDTH - GENERATION_EDGE_OFFSET + 1);
+				float y = topY - Functions.GetRandomValue(MIN_VERTICAL_SPACING, MAX_VERTICAL_SPACING) - GENERATION_VERTICAL_OFFSET;
+
+				platforms.Add(new Platform(new Vector2(x, y), HazardTypes.NONE, false));
 			}
-
-			/*
-			int topY = platforms[platforms.Count - 1].BoundingBox.Y;
-
-			if (topY > Camera.Instance.VisibleArea.Top + VERTICAL_SPACING - OFFSCREEN_DISTANCE)
-			{
-				int x = random.Next(GENERATION_EDGE_OFFSET, Constants.SCREEN_WIDTH - GENERATION_EDGE_OFFSET + 1);
-				int y = topY - VERTICAL_SPACING;
-
-				platforms.Add(new Platform(new Vector2(x, y), HazardTypes.STATIONARY_SPIKES));
-			}
-			*/
 		}
 
 		public void Draw(SpriteBatch sb)
