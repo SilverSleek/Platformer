@@ -2,11 +2,13 @@
 
 using Microsoft.Xna.Framework.Graphics;
 
+using Platformer.Entities.Events;
 using Platformer.Entities.Particles;
+using Platformer.Interfaces;
 
 namespace Platformer.Helpers
 {
-    class ParticleHelper
+    class ParticleHelper : IEventListener
     {
         private List<Particle> particles;
         private AshSpawner ashSpawner;
@@ -16,7 +18,14 @@ namespace Platformer.Helpers
             this.particles = particles;
 
             ashSpawner = new AshSpawner(particles);
+
+			SimpleEvent.AddEvent(EventTypes.LISTENER, new ListenerEventData(EventTypes.RESET, this));
         }
+
+		public void EventResponse(SimpleEvent simpleEvent)
+		{
+			particles.Clear();
+		}
 
         public void Update(float dt)
         {
