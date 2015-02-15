@@ -184,7 +184,7 @@ namespace Platformer.Entities
 
 		public void Update(float dt)
 		{
-			totalAscension += ASCENSION_SPEED * dt;
+			//totalAscension += ASCENSION_SPEED * dt;
 			totalMilliseconds += dt * 1000;
 
 			for (int i = 0; i < points.Length; i++)

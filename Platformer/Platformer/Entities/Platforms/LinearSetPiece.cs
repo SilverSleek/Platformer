@@ -45,6 +45,8 @@ namespace Platformer.Entities.Platforms
 			Vector2 offset = new Vector2((float)totalLength / Platforms.Count, 0);
 			Vector2 startingPosition = Vector2.Zero;
 
+			offset *= movementDirection == MovementDirections.RIGHT ? -1 : 1;
+
 			if (movementDirection == MovementDirections.LEFT)
 			{
 				platformVelocity = new Vector2(-PLATFORM_SPEED, 0);
@@ -65,6 +67,7 @@ namespace Platformer.Entities.Platforms
 		private void CheckRecyclePlatform()
 		{
 			float x = Platforms[0].BoundingBox.Center.X;
+			float newX = float.MinValue;
 
 			Platform newPlatform = null;
 
@@ -72,27 +75,24 @@ namespace Platformer.Entities.Platforms
 			{
 				if (x <= -OFFSCREEN_DISTANCE)
 				{
-					newPlatform = new Platform(new Vector2(x + totalLength, yValue), Hazards.HazardTypes.NONE, true);
-
-					Platforms[0].Destroy();
-					Platforms.RemoveAt(0);
-					Platforms.Add(newPlatform);
+					newX = x + totalLength;
 				}
 			}
 			else
 			{
 				if (x >= Constants.SCREEN_WIDTH + OFFSCREEN_DISTANCE)
 				{
-					newPlatform = new Platform(new Vector2(x - totalLength, yValue), Hazards.HazardTypes.NONE, true);
-
-					Platforms[Platforms.Count - 1].Destroy();
-					Platforms.RemoveAt(Platforms.Count - 1);
-					Platforms.Insert(0, newPlatform);
+					newX = x - totalLength;
 				}
 			}
 
-			if (newPlatform != null)
+			if (newX != float.MinValue)
 			{
+				newPlatform = new Platform(new Vector2(newX, yValue), Hazards.HazardTypes.NONE, true);
+
+				Platforms[0].Destroy();
+				Platforms.RemoveAt(0);
+				Platforms.Add(newPlatform);
 				PlatformMasterList.Add(newPlatform);
 			}
 		}

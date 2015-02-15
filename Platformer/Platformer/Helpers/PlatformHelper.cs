@@ -95,7 +95,7 @@ namespace Platformer.Helpers
 		{
 			if (setPieces.Count == 0)
 			{
-				setPieces.Add(new LinearSetPiece(200, 5, MovementDirections.LEFT));
+				setPieces.Add(new LinearSetPiece(200, 5, MovementDirections.RIGHT));
 				setPieces.Add(new CircularSetPiece(new Vector2(Constants.SCREEN_WIDTH / 2, -100), 4)); 
 			}
 
