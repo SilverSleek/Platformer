@@ -25,7 +25,7 @@ namespace Platformer.Entities.Particles
         public override void Update(float dt)
         {
             Vector2 velocity = Velocity;
-            velocity.X += Functions.GetRandomValue(MIN_DRIFT_CHANGE, MAX_DRIFT_CHANGE);
+            velocity.X += Functions.GetRandomFloat(MIN_DRIFT_CHANGE, MAX_DRIFT_CHANGE);
             velocity.X = MathHelper.Clamp(velocity.X, -MAX_DRIFT_SPEED, MAX_DRIFT_SPEED);
             Velocity = velocity;
 

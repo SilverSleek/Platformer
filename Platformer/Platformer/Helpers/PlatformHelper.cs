@@ -98,8 +98,8 @@ namespace Platformer.Helpers
 
 			if (topY > Camera.Instance.VisibleArea.Top + MIN_VERTICAL_SPACING)
 			{
-				float x = Functions.GetRandomValue(GENERATION_EDGE_OFFSET, Constants.SCREEN_WIDTH - GENERATION_EDGE_OFFSET + 1);
-				float y = topY - Functions.GetRandomValue(MIN_VERTICAL_SPACING, MAX_VERTICAL_SPACING) - GENERATION_VERTICAL_OFFSET;
+				float x = Functions.GetRandomFloat(GENERATION_EDGE_OFFSET, Constants.SCREEN_WIDTH - GENERATION_EDGE_OFFSET + 1);
+				float y = topY - Functions.GetRandomFloat(MIN_VERTICAL_SPACING, MAX_VERTICAL_SPACING) - GENERATION_VERTICAL_OFFSET;
 
 				HazardTypes hazardType = (HazardTypes)random.Next(0, Hazard.NumHazardTypes);
 

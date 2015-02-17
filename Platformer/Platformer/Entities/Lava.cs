@@ -90,9 +90,9 @@ namespace Platformer.Entities
 
 			for (int i = 0; i < sineWaves.Length; i++)
 			{
-				float amplitude = Functions.GetRandomValue(MIN_AMPLITUDE, MAX_AMPLITUDE);
-				float frequency = Functions.GetRandomValue(MIN_FREQUENCY, MAX_FREQUENCY);
-				float cycleSpeed = Functions.GetRandomValue(MIN_CYCLE_SPEED, MAX_CYCLE_SPEED);
+				float amplitude = Functions.GetRandomFloat(MIN_AMPLITUDE, MAX_AMPLITUDE);
+				float frequency = Functions.GetRandomFloat(MIN_FREQUENCY, MAX_FREQUENCY);
+				float cycleSpeed = Functions.GetRandomFloat(MIN_CYCLE_SPEED, MAX_CYCLE_SPEED);
 
 				sineWaves[i] = new SineWave(amplitude, frequency, cycleSpeed);
 			}
@@ -211,8 +211,8 @@ namespace Platformer.Entities
         {
             if ((float)random.NextDouble() <= AVERAGE_NUM_EMBERS_PER_SECOND * dt)
             {
-                Vector2 position = points[(int)Functions.GetRandomValue(0, points.Length)];
-                Vector2 velocity = new Vector2(0, -Functions.GetRandomValue(MIN_EMBER_SPEED, MAX_EMBER_SPEED));
+                Vector2 position = points[Functions.GetRandomInt(0, points.Length - 1)];
+                Vector2 velocity = new Vector2(0, -Functions.GetRandomFloat(MIN_EMBER_SPEED, MAX_EMBER_SPEED));
 
                 position.Y += EMBER_SPAWN_DEPTH;
 

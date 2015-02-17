@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Particles>
+	<Particle Type="Ash"></Particle>
+	<Particle Type="Ember"></Particle>
+</Particles>

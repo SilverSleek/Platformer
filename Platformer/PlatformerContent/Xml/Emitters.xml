@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Emitters>
+	<Emitter Type="Fire">
+		<ParticleType>Fire</ParticleType>
+		<MinDelay>0</MinDelay>
+		<MaxDelay>0</MaxDelay>
+		<MinParticles>0</MinParticles>
+		<MaxParticles>0</MaxParticles>
+		<MinParticleSpeedX>0</MinParticleSpeedX>
+		<MaxParticleSpeedX>0</MaxParticleSpeedX>
+		<MinParticleSpeedY>0</MinParticleSpeedY>
+		<MaxParticleSpeedY>0</MaxParticleSpeedY>
+	</Emitter>
+</Emitters>

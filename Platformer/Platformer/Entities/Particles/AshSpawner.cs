@@ -35,10 +35,10 @@ namespace Platformer.Entities.Particles
 				Rectangle visibleArea = Camera.Instance.VisibleArea;
 				Rectangle spawnRect = new Rectangle(visibleArea.X, visibleArea.Y - OFFSCREEN_HEIGHT, Constants.SCREEN_WIDTH, OFFSCREEN_HEIGHT);
 
-				float x = Functions.GetRandomValue(spawnRect.Left + GENERATION_OFFSET, spawnRect.Right - GENERATION_OFFSET);
-				float y = Functions.GetRandomValue(spawnRect.Top + GENERATION_OFFSET, spawnRect.Bottom - GENERATION_OFFSET);
-				float velocityX = Functions.GetRandomValue(MIN_SPEED_X, MAX_SPEED_X);
-				float velocityY = Functions.GetRandomValue(MIN_SPEED_Y, MAX_SPEED_Y);
+				float x = Functions.GetRandomFloat(spawnRect.Left + GENERATION_OFFSET, spawnRect.Right - GENERATION_OFFSET);
+				float y = Functions.GetRandomFloat(spawnRect.Top + GENERATION_OFFSET, spawnRect.Bottom - GENERATION_OFFSET);
+				float velocityX = Functions.GetRandomFloat(MIN_SPEED_X, MAX_SPEED_X);
+				float velocityY = Functions.GetRandomFloat(MIN_SPEED_Y, MAX_SPEED_Y);
 
 				particles.Add(new Ash(new Vector2(x, y), new Vector2(velocityX, velocityY)));
 			}

@@ -54,7 +54,7 @@ namespace Platformer.Entities.Particles
 		{
 			this.scaleState = scaleState;
 
-			int delay = (int)Functions.GetRandomValue(minDuration, maxDuration);
+			int delay = Functions.GetRandomInt(minDuration, maxDuration);
 
             Vector2 scale = Scale;
             scale.X = scaleValue;
