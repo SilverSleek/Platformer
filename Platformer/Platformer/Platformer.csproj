@@ -125,7 +125,11 @@
     <Compile Include="Entities\Particles\Ember.cs" />
     <Compile Include="Entities\Particles\Emitters\ContinuousEmitter.cs" />
     <Compile Include="Entities\Particles\Emitters\Emitter.cs" />
+    <Compile Include="Entities\Particles\Emitters\EmitterGroup.cs" />
+    <Compile Include="Entities\Particles\Testing\EmitterTestingRoom.cs" />
     <Compile Include="Entities\Particles\Particle.cs" />
+    <Compile Include="Entities\Particles\Testing\SelectionList.cs" />
+    <Compile Include="Entities\Particles\Testing\ListItem.cs" />
     <Compile Include="Entities\Platforms\CircularSetPiece.cs" />
     <Compile Include="Entities\Platforms\LinearSetPiece.cs" />
     <Compile Include="Entities\Platforms\Platform.cs" />

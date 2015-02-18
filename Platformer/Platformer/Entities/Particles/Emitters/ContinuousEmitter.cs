@@ -18,6 +18,11 @@ namespace Platformer.Entities.Particles.Emitters
 			timer = new Timer(0, Emit, true);
 		}
 
+		public override void Destroy()
+		{
+			timer.Destroy = true;
+		}
+
 		public override void Emit()
 		{
 			int numParticles = Functions.GetRandomInt(Attributes.MinParticles, Attributes.MaxParticles);

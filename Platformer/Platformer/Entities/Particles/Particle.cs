@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Xml.Linq;
 
 using Microsoft.Xna.Framework;
@@ -11,9 +10,10 @@ namespace Platformer.Entities.Particles
 {
     public enum ParticleTypes
     {
-        ASH,
-        EMBER,
 		FIRE,
+        EMBER,
+		ASH,
+		SPECK,
 		INVALID
     }
 
@@ -31,8 +31,6 @@ namespace Platformer.Entities.Particles
 			{
 				ParticleTypes particleType = ConvertToParticleType(particleElement.Attribute("Type").Value);
 
-				Debug.Assert(particleType != ParticleTypes.INVALID);
-
 				string[] tokens = particleElement.Value.Split(' ');
 
 				int x = int.Parse(tokens[0]);
@@ -48,14 +46,17 @@ namespace Platformer.Entities.Particles
 		{
 			switch (particleType)
 			{
-				case "Ash":
-					return ParticleTypes.ASH;
+				case "Fire":
+					return ParticleTypes.FIRE;
 
 				case "Ember":
 					return ParticleTypes.EMBER;
 
-				case "Fire":
-					return ParticleTypes.FIRE;
+				case "Ash":
+					return ParticleTypes.ASH;
+
+				case "Speck":
+					return ParticleTypes.SPECK;
 			}
 
 			return ParticleTypes.INVALID;

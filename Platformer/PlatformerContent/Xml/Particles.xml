@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <Particles>
-	<Particle Type="Ash"></Particle>
-	<Particle Type="Ember"></Particle>
+	<Particle Type="Fire">0 0 32 32</Particle>
+	<Particle Type="Ember">33 0 8 8</Particle>
+	<Particle Type="Ash">33 9 16 12</Particle>
+	<Particle Type="Speck">33 22 3 3</Particle>
 </Particles>

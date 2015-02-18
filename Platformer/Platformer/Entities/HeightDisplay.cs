@@ -16,7 +16,8 @@ namespace Platformer.Entities
 
 		public HeightDisplay()
 		{
-			text = new Text(ContentLoader.LoadFont("Height"), "0", new Vector2(Constants.SCREEN_WIDTH / 2, VERTICAL_OFFSET), Color.Black);
+			text = new Text(ContentLoader.LoadFont("Height"), "0", new Vector2(Constants.SCREEN_WIDTH / 2, VERTICAL_OFFSET),
+				OriginLocations.CENTER, Color.Black);
 			maxHeightReached = -1;
 
 			SimpleEvent.AddEvent(EventTypes.LISTENER, new ListenerEventData(EventTypes.RESET, this));

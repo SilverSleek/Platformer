@@ -8,6 +8,7 @@ using Platformer.Entities;
 using Platformer.Entities.Events;
 using Platformer.Entities.Hazards;
 using Platformer.Entities.Particles;
+using Platformer.Entities.Particles.Testing;
 using Platformer.Entities.Platforms;
 using Platformer.Entities.Screens;
 using Platformer.Interfaces;
@@ -22,7 +23,8 @@ namespace Platformer
 	{
 		SPLASH,
 		TITLE,
-		GAMEPLAY
+		GAMEPLAY,
+		EMITTER_TESTING
 	}
 
 	public enum ButtonStates
@@ -31,6 +33,12 @@ namespace Platformer
 		RELEASED,
 		PRESSED_THIS_FRAME,
 		RELEASED_THIS_FRAME
+	}
+
+	public enum OriginLocations
+	{
+		TOP_LEFT,
+		CENTER
 	}
 
 	public enum CollisionDirections
@@ -64,6 +72,8 @@ namespace Platformer
 		private CollisionHelper collisionHelper;
         private ParticleHelper particleHelper;
 
+		private EmitterTestingRoom emitterTestingRoom;
+
 		private Gamestates gamestate;
 
 		public Game1()
@@ -88,7 +98,7 @@ namespace Platformer
 			eventManager = new EventManager();
 			timerManager = new TimerManager();
 
-			SwitchGamestate(Gamestates.GAMEPLAY);
+			SwitchGamestate(Gamestates.EMITTER_TESTING);
 
 			base.Initialize();
 		}
@@ -123,6 +133,10 @@ namespace Platformer
 				case Gamestates.GAMEPLAY:
 					InitializeGameplay();
 					break;
+
+				case Gamestates.EMITTER_TESTING:
+					InitializeEmitterTesting();
+					break;
 			}
 		}
 
@@ -145,6 +159,14 @@ namespace Platformer
             ParticleFactory.Initialize(particles);
 
 			SimpleEvent.AddEvent(EventTypes.RESET, null);
+		}
+
+		private void InitializeEmitterTesting()
+		{
+			List<Particle> particles = new List<Particle>();
+
+			emitterTestingRoom = new EmitterTestingRoom();
+			particleHelper = new ParticleHelper(particles);
 		}
 
 		protected override void Update(GameTime gameTime)
@@ -182,6 +204,9 @@ namespace Platformer
 		{
 			GraphicsDevice.Clear(Color.White);
 
+			spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp,
+				DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, Camera.Instance.Transform);
+
 			switch (gamestate)
 			{
 				case Gamestates.SPLASH:
@@ -197,22 +222,29 @@ namespace Platformer
 				case Gamestates.GAMEPLAY:
 					DrawGameplay();
 					break;
+
+				case Gamestates.EMITTER_TESTING:
+					DrawEmitterTesting();
+					break;
 			}
+
+			spriteBatch.End();
 		}
 
 		private void DrawGameplay()
 		{
-			spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp,
-                DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, Camera.Instance.Transform);
-
 			//background.Draw(spriteBatch);
             platformHelper.Draw(spriteBatch);
             particleHelper.Draw(spriteBatch);
 			player.Draw(spriteBatch);
 			lava.Draw(spriteBatch);
 			heightDisplay.Draw(spriteBatch);
+		}
 
-			spriteBatch.End();
+		private void DrawEmitterTesting()
+		{
+			particleHelper.Draw(spriteBatch);
+			emitterTestingRoom.Draw(spriteBatch);
 		}
 	}
 }

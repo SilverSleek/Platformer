@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Xml.Linq;
 
 using Microsoft.Xna.Framework;
@@ -23,9 +22,6 @@ namespace Platformer.Entities.Particles.Emitters
 			foreach (XElement emitterElement in XDocument.Load(Constants.XML_FILEPATH + "Emitters.xml").Root.Elements("Emitter"))
 			{
 				EmitterTypes emitterType = ConvertToEmitterType(emitterElement.Attribute("Type").Value);
-
-				Debug.Assert(emitterType != EmitterTypes.INVALID);
-
 				ParticleTypes particleType = Particle.ConvertToParticleType(emitterElement.Element("ParticleType").Value);
 
 				int minDelay = int.Parse(emitterElement.Element("MinDelay").Value);
@@ -62,7 +58,11 @@ namespace Platformer.Entities.Particles.Emitters
 
 		protected EmitterAttributes Attributes { get; private set; }
 
-		public abstract void Emit();
+		public virtual void Destroy()
+		{
+		}
+
+		public abstract void Emit();	
 
 		protected class EmitterAttributes
 		{

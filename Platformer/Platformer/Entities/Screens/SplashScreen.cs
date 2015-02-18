@@ -39,7 +39,7 @@ namespace Platformer.Entities.Screens
 			Vector2 spritePosition = textPosition - new Vector2(font.MeasureString(textValue).X / 2 + LOGO_OFFSET, 0);
 
 			logoSprite = new Sprite(ContentLoader.LoadTexture("Logo"), spritePosition);
-			text = new Text(font, textValue, textPosition, Color.White); 
+			text = new Text(font, textValue, textPosition, OriginLocations.CENTER, Color.White); 
 
 			ChangeFadeState(FadeStates.NONE, Color.Transparent, FADE_DELAY, BeginFadeIn);
 		}

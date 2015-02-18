@@ -7,10 +7,12 @@ namespace Platformer.Entities
 	{
 		private SpriteFont font;
 		private Vector2 origin;
+		private OriginLocations originLocation;
 
-		public Text(SpriteFont font, string value, Vector2 position, Color color)
+		public Text(SpriteFont font, string value, Vector2 position, OriginLocations originLocation, Color color)
 		{
 			this.font = font;
+			this.originLocation = originLocation;
 
 			Position = position;
 			Color = color;
@@ -26,7 +28,11 @@ namespace Platformer.Entities
 		public void SetValue(string value)
 		{
 			Value = value;
-			origin = font.MeasureString(value) / 2;
+
+			if (originLocation == OriginLocations.CENTER)
+			{
+				origin = font.MeasureString(value) / 2;
+			}
 		}
 
 		public void Draw(SpriteBatch sb)
